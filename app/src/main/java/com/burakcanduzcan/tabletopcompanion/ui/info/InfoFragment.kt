@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.burakcanduzcan.tabletopcompanion.R
 import com.burakcanduzcan.tabletopcompanion.databinding.FragmentInfoBinding
@@ -27,17 +29,13 @@ class InfoFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.app_name)
+    }
+
     private fun getGameList(): ArrayList<Game> {
         return arrayListOf(
-            Game(getString(R.string.scrabble), getString(R.string.two_four_players), R.drawable.scrabble_letter),
-            Game(getString(R.string.chess), getString(R.string.two_players), R.drawable.knight),
-            Game(getString(R.string.farkle), getString(R.string.tba), R.drawable.ic_launcher_background),
-            Game(getString(R.string.scrabble), getString(R.string.two_four_players), R.drawable.scrabble_letter),
-            Game(getString(R.string.chess), getString(R.string.two_players), R.drawable.knight),
-            Game(getString(R.string.farkle), getString(R.string.tba), R.drawable.ic_launcher_background),
-            Game(getString(R.string.scrabble), getString(R.string.two_four_players), R.drawable.scrabble_letter),
-            Game(getString(R.string.chess), getString(R.string.two_players), R.drawable.knight),
-            Game(getString(R.string.farkle), getString(R.string.tba), R.drawable.ic_launcher_background),
             Game(getString(R.string.scrabble), getString(R.string.two_four_players), R.drawable.scrabble_letter),
             Game(getString(R.string.chess), getString(R.string.two_players), R.drawable.knight),
             Game(getString(R.string.farkle), getString(R.string.tba), R.drawable.ic_launcher_background),
@@ -45,6 +43,7 @@ class InfoFragment : Fragment() {
     }
 
     private fun onClick(game: Game) {
+        this.findNavController().navigate(InfoFragmentDirections.gameSelection(game.name))
         Timber.i("Game ${game.name} is clicked")
     }
 
