@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.info.InfoFragment"
-    android:background="#FB8C00">
+    android:background="#FB8C00"
+    tools:context=".ui.info.InfoFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvGameList"

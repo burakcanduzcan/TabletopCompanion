@@ -13,4 +13,9 @@
         <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_baseline_fort_24</item>
+        <item name="postSplashScreenTheme">@style/Theme.TabletopCompanion</item>
+    </style>
 </resources>

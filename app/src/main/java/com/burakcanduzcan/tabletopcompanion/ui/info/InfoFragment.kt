@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.burakcanduzcan.tabletopcompanion.R
 import com.burakcanduzcan.tabletopcompanion.databinding.FragmentInfoBinding
 import com.burakcanduzcan.tabletopcompanion.model.Game
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class InfoFragment : Fragment() {
 
     private lateinit var binding: FragmentInfoBinding
@@ -24,26 +26,20 @@ class InfoFragment : Fragment() {
         binding = FragmentInfoBinding.inflate(inflater)
 
         binding.rvGameList.layoutManager = GridLayoutManager(requireContext(), 1)
-        binding.rvGameList.adapter = GameListAdapter(getGameList(), ::onClick)
+        binding.rvGameList.adapter =
+            GameListAdapter(requireContext(), Game.getList(), ::onClick)
 
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.app_name)
-    }
-
-    private fun getGameList(): ArrayList<Game> {
-        return arrayListOf(
-            Game(getString(R.string.scrabble), getString(R.string.two_four_players), R.drawable.scrabble_letter),
-            Game(getString(R.string.chess), getString(R.string.two_players), R.drawable.knight),
-            Game(getString(R.string.farkle), getString(R.string.tba), R.drawable.ic_launcher_background),
-        )
+        (requireActivity() as AppCompatActivity).supportActionBar?.title =
+            getString(R.string.app_name)
     }
 
     private fun onClick(game: Game) {
-        this.findNavController().navigate(InfoFragmentDirections.gameSelection(game.name))
+        this.findNavController().navigate(InfoFragmentDirections.gameSelection(game))
         Timber.i("Game ${game.name} is clicked")
     }
 
