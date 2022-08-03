@@ -16,4 +16,7 @@
     <string name="minute">Minute</string>
     <string name="second">Second</string>
     <string name="finish_setup">Finish Setup</string>
+    <string name="player_1">Player 1</string>
+    <string name="player_2">Player 2</string>
+    <string name="player_name">Player name</string>
 </resources>

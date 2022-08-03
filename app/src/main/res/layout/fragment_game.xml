@@ -1,6 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.game.GameFragment"/>
+    tools:context=".ui.game.GameFragment">
+
+    <!--Chess-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clChess"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <!--Player 1-->
+        <LinearLayout
+            android:id="@+id/llChessPlayer1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="#A29E95"
+            android:elevation="10dp"
+            android:orientation="horizontal"
+            android:rotation="180"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btnChessPlayer1">
+
+            <TextView
+                android:id="@+id/tvChessPlayer1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/player_1"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/ibChessPlayer1"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_margin="4dp"
+                android:background="@color/white"
+                android:src="@drawable/ic_baseline_edit_24"
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck,ImageContrastCheck" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvChessTimePlayer1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:rotation="180"
+            android:text="00:00"
+            android:textColor="@color/black"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnChessPlayer1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+        <!--Player 2-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnChessPlayer1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnChessPlayer2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnChessPlayer2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnChessPlayer1"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/tvChessTimePlayer2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:text="00:00"
+            android:textColor="@color/black"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnChessPlayer2"
+            app:layout_constraintEnd_toEndOf="@+id/btnChessPlayer2"
+            app:layout_constraintStart_toStartOf="@+id/btnChessPlayer2"
+            app:layout_constraintTop_toBottomOf="@+id/btnChessPlayer1"
+            tools:ignore="HardcodedText" />
+
+        <LinearLayout
+            android:id="@+id/llChessPlayer2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="#A29E95"
+            android:elevation="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/btnChessPlayer2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/tvChessPlayer2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/player_2"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/ibChessPlayer2"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_margin="4dp"
+                android:background="@color/white"
+                android:src="@drawable/ic_baseline_edit_24"
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck,ImageContrastCheck" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
