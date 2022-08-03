@@ -114,77 +114,13 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription,ImageContrastCheck" />
 
-                <EditText
-                    android:id="@+id/etOption2Minute"
-                    android:layout_width="45dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:digits="0123456789"
-                    android:gravity="end"
-                    android:importantForAutofill="no"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:visibility="invisible"
-                    app:layout_constraintEnd_toStartOf="@+id/tvOption2Text2"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@+id/cbOption2Timer"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-                <EditText
-                    android:id="@+id/etOption2Second"
-                    android:layout_width="45dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:digits="0123456789"
-                    android:gravity="end"
-                    android:importantForAutofill="no"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/tvOption2Text3"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@+id/cbOption2Timer"
-                    app:layout_constraintTop_toBottomOf="@+id/etOption2Minute"
-                    tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-                <TextView
-                    android:id="@+id/tvOption2Text2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/minute"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:visibility="invisible"
-                    app:layout_constraintStart_toStartOf="@+id/tvOption2Text3"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed" />
-
-                <TextView
-                    android:id="@+id/tvOption2Text3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="@string/second"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
                 <CheckBox
                     android:id="@+id/cbOption2Timer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
                     android:buttonTint="@color/design_default_color_error"
                     android:checked="false"
                     android:minHeight="48dp"
@@ -193,6 +129,20 @@
                     app:layout_constraintBottom_toBottomOf="@+id/ivOption2Icon"
                     app:layout_constraintStart_toEndOf="@+id/ivOption2Icon"
                     app:layout_constraintTop_toTopOf="@+id/ivOption2Icon" />
+
+                <Spinner
+                    android:id="@+id/spOption2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:minHeight="48dp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@+id/cbOption2Timer"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/cbOption2Timer"
+                    app:layout_constraintTop_toTopOf="@+id/cbOption2Timer"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

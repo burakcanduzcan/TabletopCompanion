@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="time_spans">
+        <item>5 Minute</item>
+        <item>10 Minute</item>
+        <item>15 Minute</item>
+        <item>20 Minute</item>
+        <item>25 Minute</item>
+        <item>30 Minute</item>
+    </string-array>
+</resources>

@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -12,15 +14,17 @@ import com.burakcanduzcan.tabletopcompanion.R
 import com.burakcanduzcan.tabletopcompanion.databinding.FragmentSetupBinding
 import com.burakcanduzcan.tabletopcompanion.model.Game
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
-class SetupFragment : Fragment() {
+class SetupFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private lateinit var binding: FragmentSetupBinding
     private val args: SetupFragmentArgs by navArgs()
     private lateinit var selectedGame: Game
 
     private var option1PlayerCount = 0
+    private var option2TimeSpan = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,18 +69,24 @@ class SetupFragment : Fragment() {
         //Options2: Timer
         if (enableCheck(requireContext().getString(selectedGame.nameRes), 2)) {
             binding.cvOption2.visibility = View.VISIBLE
+            option2TimeSpan = ""
+
+            //spinner setup
+            ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.time_spans,
+                android.R.layout.simple_spinner_item
+            ).also { arrayAdapter ->
+                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                binding.spOption2.adapter = arrayAdapter
+            }
+            binding.spOption2.onItemSelectedListener = this
 
             binding.cbOption2Timer.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    binding.etOption2Minute.visibility = View.VISIBLE
-                    binding.etOption2Second.visibility = View.VISIBLE
-                    binding.tvOption2Text2.visibility = View.VISIBLE
-                    binding.tvOption2Text3.visibility = View.VISIBLE
+                    binding.spOption2.visibility = View.VISIBLE
                 } else {
-                    binding.etOption2Minute.visibility = View.INVISIBLE
-                    binding.etOption2Second.visibility = View.INVISIBLE
-                    binding.tvOption2Text2.visibility = View.INVISIBLE
-                    binding.tvOption2Text3.visibility = View.INVISIBLE
+                    binding.spOption2.visibility = View.INVISIBLE
                 }
             }
 
@@ -84,17 +94,16 @@ class SetupFragment : Fragment() {
             binding.cvOption2.visibility = View.GONE
         }
 
+        //finish setup button
         binding.btnNext.setOnClickListener {
             //this will proceed to next screen
 
             //check if a timer is given
             if (binding.cbOption2Timer.isChecked) {
-                val timeToSend = (binding.etOption2Minute.text.toString()
-                    .toInt() * 60) + binding.etOption2Second.text.toString().toInt()
                 this.findNavController().navigate(SetupFragmentDirections.finishSetup(
                     selectedGame,
                     option1PlayerCount,
-                    timeToSend
+                    option2TimeSpan
                 ))
             } else {
                 this.findNavController()
@@ -131,5 +140,13 @@ class SetupFragment : Fragment() {
             }
         }
         return false
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+        Timber.i(parent!!.getItemAtPosition(pos).toString())
+        option2TimeSpan = parent.getItemAtPosition(pos).toString()
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
     }
 }
