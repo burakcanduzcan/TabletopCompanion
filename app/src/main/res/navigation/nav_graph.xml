@@ -35,7 +35,8 @@
         tools:layout="@layout/fragment_game">
         <action
             android:id="@+id/returnBackToMainScreen"
-            app:destination="@id/infoFragment" />
+            app:destination="@id/infoFragment"
+            app:popUpTo="@id/infoFragment" />
         <argument
             android:name="game_enum"
             app:argType="com.burakcanduzcan.tabletopcompanion.model.Game" />
