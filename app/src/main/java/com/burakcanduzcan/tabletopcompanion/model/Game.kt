@@ -12,7 +12,6 @@ enum class Game(
 ) {
     SCRABBLE(R.string.scrabble, R.drawable.scrabble_letter, 2, 4),
     CHESS(R.string.chess, R.drawable.knight, 2, 2),
-    FARKLE(R.string.farkle, R.drawable.ic_launcher_background, 0, 0),
     TBA(R.string.tba, R.drawable.ic_launcher_background, 0, 0);
 
     companion object {

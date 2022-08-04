@@ -55,11 +55,11 @@ class SetupFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     option1PlayerCount++
                     binding.tvOption1PlayerCount.text = option1PlayerCount.toString()
                 }
-                binding.ibOption1Decrease.setOnClickListener {
-                    if (option1PlayerCount > selectedGame.minPlayer) {
-                        option1PlayerCount--
-                        binding.tvOption1PlayerCount.text = option1PlayerCount.toString()
-                    }
+            }
+            binding.ibOption1Decrease.setOnClickListener {
+                if (option1PlayerCount > selectedGame.minPlayer) {
+                    option1PlayerCount--
+                    binding.tvOption1PlayerCount.text = option1PlayerCount.toString()
                 }
             }
         } else {

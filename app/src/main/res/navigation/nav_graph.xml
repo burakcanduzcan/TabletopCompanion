@@ -44,7 +44,7 @@
             app:argType="integer" />
         <argument
             android:name="playTimeSpan"
-            app:argType="string"
-            android:defaultValue="none"/>
+            android:defaultValue="none"
+            app:argType="string" />
     </fragment>
 </navigation>
