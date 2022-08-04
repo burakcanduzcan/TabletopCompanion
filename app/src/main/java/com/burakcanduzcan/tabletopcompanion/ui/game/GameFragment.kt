@@ -1,11 +1,13 @@
 package com.burakcanduzcan.tabletopcompanion.ui.game
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RawRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -32,6 +34,8 @@ class GameFragment : Fragment() {
 
     //arrayList to hold layouts of different games
     private val gameViewList = ArrayList<ConstraintLayout>()
+
+    private var mMediaPlayer: MediaPlayer? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -123,10 +127,12 @@ class GameFragment : Fragment() {
                 binding.btnChessPlayer1.setOnClickListener {
                     timerPlayer1.pause()
                     timerPlayer2.start()
+                    playSound(R.raw.piece_placement)
                 }
                 binding.btnChessPlayer2.setOnClickListener {
                     timerPlayer1.start()
                     timerPlayer2.pause()
+                    playSound(R.raw.piece_placement)
                 }
 
             }
@@ -137,6 +143,14 @@ class GameFragment : Fragment() {
         super.onResume()
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
             "$selectedGame | Game Phase"
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (mMediaPlayer != null) {
+            mMediaPlayer!!.release()
+            mMediaPlayer = null
+        }
     }
 
     private fun showPlayerNameChangeDialog(tv: TextView) {
@@ -183,5 +197,15 @@ class GameFragment : Fragment() {
                 this.findNavController().navigate(GameFragmentDirections.returnBackToMainScreen())
             }
             .show()
+    }
+
+    private fun playSound(@RawRes soundRes: Int) {
+        if (mMediaPlayer == null) {
+            mMediaPlayer = MediaPlayer.create(requireContext(), soundRes)
+            mMediaPlayer!!.isLooping = false
+            mMediaPlayer!!.start()
+        } else {
+            mMediaPlayer!!.start()
+        }
     }
 }
