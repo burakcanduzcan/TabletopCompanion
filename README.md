@@ -6,6 +6,7 @@ A companion app for tabletop games. Currently supporting:
 - [Timber](https://github.com/JakeWharton/timber)
 - Navigation Component (with SafeArgs)
 - [CircleImageView](https://github.com/hdodenhof/CircleImageView)
+- Hilt
 - SplashScreen
 - [dariobrux/Timer](https://github.com/dariobrux/Timer)
 
