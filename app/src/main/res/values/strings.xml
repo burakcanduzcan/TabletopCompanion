@@ -19,4 +19,15 @@
     <string name="player_1">Player 1</string>
     <string name="player_2">Player 2</string>
     <string name="player_name">Player name</string>
+    <string name="start">Start</string>
+    <string name="numbered_player">Player %d</string>
+    <string name="change_player_name">Change Player Name</string>
+    <string name="change">Change</string>
+    <string name="cancel">Cancel</string>
+    <string name="points">Points:</string>
+    <string name="point">Point</string>
+    <string name="word">Word</string>
+    <string name="add_word">Add Word</string>
+    <string name="add">Add</string>
+    <string name="could_not_add_word">Could not add the word. Please make sure no field is empty.</string>
 </resources>

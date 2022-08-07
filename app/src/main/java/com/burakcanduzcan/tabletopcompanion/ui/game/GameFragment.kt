@@ -11,43 +11,49 @@ import androidx.annotation.RawRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import com.burakcanduzcan.tabletopcompanion.R
 import com.burakcanduzcan.tabletopcompanion.databinding.FragmentGameBinding
-import com.burakcanduzcan.tabletopcompanion.databinding.PopupUsernameBinding
+import com.burakcanduzcan.tabletopcompanion.databinding.PopupPlayerNameBinding
 import com.burakcanduzcan.tabletopcompanion.model.Game
+import com.burakcanduzcan.tabletopcompanion.utils.TimeUtil
 import com.dariobrux.kotimer.Timer
 import com.dariobrux.kotimer.interfaces.OnTimerListenerAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class GameFragment : Fragment() {
 
     private lateinit var binding: FragmentGameBinding
+    private val viewModel: GameViewModel by viewModels()
 
     private val args: GameFragmentArgs by navArgs()
     private lateinit var selectedGame: Game
 
     //arrayList to hold layouts of different games
-    private val gameViewList = ArrayList<ConstraintLayout>()
+    private val gameLayoutList = ArrayList<ConstraintLayout>()
 
-    private var mMediaPlayer: MediaPlayer? = null
+    private var soundMediaPlayer: MediaPlayer? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentGameBinding.inflate(inflater)
+
+        //getting selected game from navigation component
         selectedGame = args.gameEnum
         Timber.i("Game: ${selectedGame.name}, player count: ${args.playerCount}, duration per player: ${
-            getTimeInMilliSecondsFromInput(args.playTimeSpan)
+            TimeUtil.getTimeInMillisecondsFromString(args.playTimeSpan)
         }")
 
-        gameViewList.add(binding.clChess)
+        gameLayoutList.add(binding.clScrabble)
+        gameLayoutList.add(binding.clChess)
         //....
         setViewsForGame(getString(selectedGame.nameRes))
 
@@ -57,12 +63,82 @@ class GameFragment : Fragment() {
     private fun setViewsForGame(gameName: String) {
         Timber.i("Initializing view for $gameName")
         //setting every view to invisible
-        for (cl in gameViewList) {
+        for (cl in gameLayoutList) {
             cl.visibility = View.GONE
         }
 
         when (gameName) {
             getString(R.string.scrabble) -> {
+                //SETUP FOR SCRABBLE GAME
+                //set game view visible
+                binding.clScrabble.visibility = View.VISIBLE
+
+                //creating players in playerList
+                viewModel.createPlayersForScrabble(args.playerCount, args.playTimeSpan)
+
+                //setting up recyclerView
+                binding.rvScrabble.apply {
+                    layoutManager =
+                        GridLayoutManager(requireContext(), 2)
+                    adapter = ScrabbleAdapter(
+                        viewModel.getAllScrabblePlayers(),
+                        requireContext(),
+                        layoutInflater)
+                }
+
+                //timer
+                var timerStarted = false
+                val timer: Timer = Timer().apply {
+                    setDuration(TimeUtil.getTimeInMillisecondsFromString(args.playTimeSpan))
+                    binding.tvScrabbleTimer.text =
+                        TimeUtil.getFormattedTimeTextFromMilliseconds(TimeUtil.getTimeInMillisecondsFromString(
+                            args.playTimeSpan))
+                    setIsDaemon(false)
+                    setStartDelay(0L)
+                    setOnTimerListener(object : OnTimerListenerAdapter() {
+                        override fun onTimerStarted() {
+                            super.onTimerStarted()
+                        }
+
+                        override fun onTimerRun(milliseconds: Long) {
+                            super.onTimerRun(milliseconds)
+                            binding.tvScrabbleTimer.text =
+                                TimeUtil.getFormattedTimeTextFromMilliseconds(milliseconds)
+                        }
+
+                        override fun onTimerStopped() {
+                            super.onTimerStopped()
+                            binding.tvScrabbleTimer.text =
+                                TimeUtil.getFormattedTimeTextFromMilliseconds(TimeUtil.getTimeInMillisecondsFromString(
+                                    args.playTimeSpan))
+                        }
+
+                        override fun onTimerEnded() {
+                            super.onTimerEnded()
+                            playSound(R.raw.cuckoo_clock)
+
+                        }
+                    }, true)
+                }
+
+                //button
+                binding.ibScrabbleTimeAction.setOnClickListener {
+                    if (timerStarted) {
+                        timerStarted = false
+                        timer.stop()
+                        //change button's icon and color
+                        binding.ibScrabbleTimeAction.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+                        binding.ibScrabbleTimeAction.backgroundTintList =
+                            requireContext().getColorStateList(R.color.green)
+                    } else {
+                        timerStarted = true
+                        timer.start()
+                        //change button's icon and color
+                        binding.ibScrabbleTimeAction.setImageResource(R.drawable.ic_baseline_stop_24)
+                        binding.ibScrabbleTimeAction.backgroundTintList =
+                            requireContext().getColorStateList(R.color.red)
+                    }
+                }
             }
             getString(R.string.chess) -> {
                 //SETUP FOR CHESS GAME
@@ -72,16 +148,18 @@ class GameFragment : Fragment() {
 
                 //TIMERS
                 val timerPlayer1: Timer = Timer().apply {
-                    setDuration(getTimeInMilliSecondsFromInput(args.playTimeSpan))
+                    setDuration(TimeUtil.getTimeInMillisecondsFromString(args.playTimeSpan))
                     binding.tvChessTimePlayer1.text =
-                        getFormattedTimeText(getTimeInMilliSecondsFromInput(args.playTimeSpan))
+                        TimeUtil.getFormattedTimeTextFromMilliseconds(TimeUtil.getTimeInMillisecondsFromString(
+                            args.playTimeSpan))
                     setIsDaemon(false)
                     setStartDelay(0L)
                 }
                 val timerPlayer2: Timer = Timer().apply {
-                    setDuration(getTimeInMilliSecondsFromInput(args.playTimeSpan))
+                    setDuration(TimeUtil.getTimeInMillisecondsFromString(args.playTimeSpan))
                     binding.tvChessTimePlayer2.text =
-                        getFormattedTimeText(getTimeInMilliSecondsFromInput(args.playTimeSpan))
+                        TimeUtil.getFormattedTimeTextFromMilliseconds(TimeUtil.getTimeInMillisecondsFromString(
+                            args.playTimeSpan))
                     setIsDaemon(false)
                     setStartDelay(0L)
                 }
@@ -98,7 +176,8 @@ class GameFragment : Fragment() {
 
                     override fun onTimerRun(milliseconds: Long) {
                         super.onTimerRun(milliseconds)
-                        binding.tvChessTimePlayer1.text = getFormattedTimeText(milliseconds)
+                        binding.tvChessTimePlayer1.text =
+                            TimeUtil.getFormattedTimeTextFromMilliseconds(milliseconds)
                     }
                 }, true)
                 timerPlayer2.setOnTimerListener(object : OnTimerListenerAdapter() {
@@ -112,7 +191,8 @@ class GameFragment : Fragment() {
 
                     override fun onTimerRun(milliseconds: Long) {
                         super.onTimerRun(milliseconds)
-                        binding.tvChessTimePlayer2.text = getFormattedTimeText(milliseconds)
+                        binding.tvChessTimePlayer2.text =
+                            TimeUtil.getFormattedTimeTextFromMilliseconds(milliseconds)
                     }
                 }, true)
 
@@ -142,46 +222,29 @@ class GameFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
-            "$selectedGame | Game Phase"
+            "${selectedGame.name} | Game Phase"
     }
 
     override fun onStop() {
         super.onStop()
-        if (mMediaPlayer != null) {
-            mMediaPlayer!!.release()
-            mMediaPlayer = null
+        if (soundMediaPlayer != null) {
+            soundMediaPlayer!!.release()
+            soundMediaPlayer = null
         }
+        viewModel.clearScrabblePlayerList()
     }
 
     private fun showPlayerNameChangeDialog(tv: TextView) {
-        val dialogBinding = PopupUsernameBinding.inflate(layoutInflater)
+        val dialogBinding = PopupPlayerNameBinding.inflate(layoutInflater)
         AlertDialog.Builder(requireContext())
             .setView(dialogBinding.root)
-            .setTitle("Change Username")
-            .setPositiveButton("Change") { _, _ ->
+            .setTitle(getString(R.string.change_player_name))
+            .setPositiveButton(getString(R.string.change)) { _, _ ->
                 tv.text = dialogBinding.etPlayerNewName.text.toString()
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(getString(R.string.cancel), null)
+            .setCancelable(false)
             .show()
-    }
-
-    private fun getTimeInMilliSecondsFromInput(input: String): Long {
-        return if (input == "none") {
-            0
-        } else {
-            val tmpString = input.substringBefore(" Minute")
-            (tmpString.toInt() * 60 * 1000).toLong()
-        }
-    }
-
-    private fun getFormattedTimeText(milliseconds: Long): String {
-        val hours = TimeUnit.MILLISECONDS.toHours(milliseconds)
-        val minutes =
-            TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(hours)
-        val seconds =
-            TimeUnit.MILLISECONDS.toSeconds(milliseconds) - TimeUnit.MINUTES.toSeconds(minutes) - TimeUnit.HOURS.toSeconds(
-                hours)
-        return String.format("%02d:%02d", minutes, seconds)
     }
 
     private fun chessGameEndedWithTimerRanOut(didPlayerOneWin: Boolean) {
@@ -196,16 +259,17 @@ class GameFragment : Fragment() {
             .setPositiveButton("Finish game") { _, _ ->
                 this.findNavController().navigate(GameFragmentDirections.returnBackToMainScreen())
             }
+            .setCancelable(false)
             .show()
     }
 
     private fun playSound(@RawRes soundRes: Int) {
-        if (mMediaPlayer == null) {
-            mMediaPlayer = MediaPlayer.create(requireContext(), soundRes)
-            mMediaPlayer!!.isLooping = false
-            mMediaPlayer!!.start()
+        if (soundMediaPlayer == null) {
+            soundMediaPlayer = MediaPlayer.create(requireContext(), soundRes)
+            soundMediaPlayer!!.isLooping = false
+            soundMediaPlayer!!.start()
         } else {
-            mMediaPlayer!!.start()
+            soundMediaPlayer!!.start()
         }
     }
 }
