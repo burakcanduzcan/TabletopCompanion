@@ -44,8 +44,7 @@
             android:name="playerCount"
             app:argType="integer" />
         <argument
-            android:name="playTimeSpan"
-            android:defaultValue="none"
-            app:argType="string" />
+            android:name="playerRoundDuration"
+            app:argType="integer" />
     </fragment>
 </navigation>

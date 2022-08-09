@@ -13,12 +13,7 @@ object TimeUtil {
         return String.format("%02d:%02d", minutes, seconds)
     }
 
-    fun getTimeInMillisecondsFromString(input: String): Long {
-        return if (input == "none") {
-            0
-        } else {
-            val tmpString = input.substringBefore(" Minute")
-            (tmpString.toInt() * 60 * 1000).toLong()
-        }
+    fun getTimeInMillisecondsFromInteger(input: Int): Long {
+        return input * 60 * 1000L
     }
 }

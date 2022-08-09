@@ -20,6 +20,7 @@ import com.burakcanduzcan.tabletopcompanion.databinding.FragmentGameBinding
 import com.burakcanduzcan.tabletopcompanion.databinding.PopupPlayerNameBinding
 import com.burakcanduzcan.tabletopcompanion.model.Game
 import com.burakcanduzcan.tabletopcompanion.utils.TimeUtil
+import com.burakcanduzcan.tabletopcompanion.utils.TimeUtil.getTimeInMillisecondsFromInteger
 import com.dariobrux.kotimer.Timer
 import com.dariobrux.kotimer.interfaces.OnTimerListenerAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -48,9 +49,9 @@ class GameFragment : Fragment() {
 
         //getting selected game from navigation component
         selectedGame = args.gameEnum
-        Timber.i("Game: ${selectedGame.name}, player count: ${args.playerCount}, duration per player: ${
-            TimeUtil.getTimeInMillisecondsFromString(args.playTimeSpan)
-        }")
+        Timber.i("Game: ${selectedGame.name}, player count: ${args.playerCount}, duration per player: ${args.playerRoundDuration}min/${
+            getTimeInMillisecondsFromInteger(args.playerRoundDuration)
+        }ms")
 
         gameLayoutList.add(binding.clScrabble)
         gameLayoutList.add(binding.clChess)
@@ -74,7 +75,8 @@ class GameFragment : Fragment() {
                 binding.clScrabble.visibility = View.VISIBLE
 
                 //creating players in playerList
-                viewModel.createPlayersForScrabble(args.playerCount, args.playTimeSpan)
+                viewModel.createPlayersForScrabble(args.playerCount,
+                    getTimeInMillisecondsFromInteger(args.playerRoundDuration))
 
                 //setting up recyclerView
                 binding.rvScrabble.apply {
@@ -89,17 +91,13 @@ class GameFragment : Fragment() {
                 //timer
                 var timerStarted = false
                 val timer: Timer = Timer().apply {
-                    setDuration(TimeUtil.getTimeInMillisecondsFromString(args.playTimeSpan))
+                    setDuration(getTimeInMillisecondsFromInteger(args.playerRoundDuration))
                     binding.tvScrabbleTimer.text =
-                        TimeUtil.getFormattedTimeTextFromMilliseconds(TimeUtil.getTimeInMillisecondsFromString(
-                            args.playTimeSpan))
+                        TimeUtil.getFormattedTimeTextFromMilliseconds(
+                            getTimeInMillisecondsFromInteger(args.playerRoundDuration))
                     setIsDaemon(false)
                     setStartDelay(0L)
                     setOnTimerListener(object : OnTimerListenerAdapter() {
-                        override fun onTimerStarted() {
-                            super.onTimerStarted()
-                        }
-
                         override fun onTimerRun(milliseconds: Long) {
                             super.onTimerRun(milliseconds)
                             binding.tvScrabbleTimer.text =
@@ -109,14 +107,18 @@ class GameFragment : Fragment() {
                         override fun onTimerStopped() {
                             super.onTimerStopped()
                             binding.tvScrabbleTimer.text =
-                                TimeUtil.getFormattedTimeTextFromMilliseconds(TimeUtil.getTimeInMillisecondsFromString(
-                                    args.playTimeSpan))
+                                TimeUtil.getFormattedTimeTextFromMilliseconds(
+                                    getTimeInMillisecondsFromInteger(args.playerRoundDuration))
                         }
 
                         override fun onTimerEnded() {
                             super.onTimerEnded()
+                            //timer ended automatically
                             playSound(R.raw.cuckoo_clock)
-
+                            timerStarted = false
+                            binding.ibScrabbleTimeAction.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+                            binding.ibScrabbleTimeAction.backgroundTintList =
+                                requireContext().getColorStateList(R.color.green)
                         }
                     }, true)
                 }
@@ -145,54 +147,51 @@ class GameFragment : Fragment() {
                 //set game view visible
                 binding.clChess.visibility = View.VISIBLE
 
-
                 //TIMERS
                 val timerPlayer1: Timer = Timer().apply {
-                    setDuration(TimeUtil.getTimeInMillisecondsFromString(args.playTimeSpan))
+                    setDuration(getTimeInMillisecondsFromInteger(args.playerRoundDuration))
                     binding.tvChessTimePlayer1.text =
-                        TimeUtil.getFormattedTimeTextFromMilliseconds(TimeUtil.getTimeInMillisecondsFromString(
-                            args.playTimeSpan))
+                        TimeUtil.getFormattedTimeTextFromMilliseconds(
+                            getTimeInMillisecondsFromInteger(args.playerRoundDuration))
                     setIsDaemon(false)
                     setStartDelay(0L)
                 }
                 val timerPlayer2: Timer = Timer().apply {
-                    setDuration(TimeUtil.getTimeInMillisecondsFromString(args.playTimeSpan))
+                    setDuration(getTimeInMillisecondsFromInteger(args.playerRoundDuration))
                     binding.tvChessTimePlayer2.text =
-                        TimeUtil.getFormattedTimeTextFromMilliseconds(TimeUtil.getTimeInMillisecondsFromString(
-                            args.playTimeSpan))
+                        TimeUtil.getFormattedTimeTextFromMilliseconds(
+                            getTimeInMillisecondsFromInteger(args.playerRoundDuration))
                     setIsDaemon(false)
                     setStartDelay(0L)
                 }
 
                 //timer listeners
                 timerPlayer1.setOnTimerListener(object : OnTimerListenerAdapter() {
-                    override fun onTimerEnded() {
-                        super.onTimerEnded()
-                        Timber.i("Player 1 ran out of time")
-                        timerPlayer1.stop()
-                        timerPlayer2.stop()
-                        chessGameEndedWithTimerRanOut(false)
-                    }
-
                     override fun onTimerRun(milliseconds: Long) {
                         super.onTimerRun(milliseconds)
                         binding.tvChessTimePlayer1.text =
                             TimeUtil.getFormattedTimeTextFromMilliseconds(milliseconds)
                     }
-                }, true)
-                timerPlayer2.setOnTimerListener(object : OnTimerListenerAdapter() {
+
                     override fun onTimerEnded() {
                         super.onTimerEnded()
-                        Timber.i("Player 2 ran out of time")
-                        timerPlayer1.stop()
-                        timerPlayer2.stop()
-                        chessGameEndedWithTimerRanOut(true)
+                        Timber.i("Chess - Player 1 ran out of time")
+                        binding.btnChessPlayer1.setBackgroundColor(requireContext().getColor(R.color.red))
+                        chessGameEndedWithTimerRanOut(false)
                     }
-
+                }, true)
+                timerPlayer2.setOnTimerListener(object : OnTimerListenerAdapter() {
                     override fun onTimerRun(milliseconds: Long) {
                         super.onTimerRun(milliseconds)
                         binding.tvChessTimePlayer2.text =
                             TimeUtil.getFormattedTimeTextFromMilliseconds(milliseconds)
+                    }
+
+                    override fun onTimerEnded() {
+                        super.onTimerEnded()
+                        Timber.i("Chess - Player 2 ran out of time")
+                        binding.btnChessPlayer2.setBackgroundColor(requireContext().getColor(R.color.red))
+                        chessGameEndedWithTimerRanOut(true)
                     }
                 }, true)
 
@@ -206,15 +205,31 @@ class GameFragment : Fragment() {
                 }
                 binding.btnChessPlayer1.setOnClickListener {
                     timerPlayer1.pause()
+                    binding.btnChessPlayer1.isEnabled = false
+                    binding.btnChessPlayer1.setBackgroundColor(requireContext().getColor(R.color.gray))
                     timerPlayer2.start()
+                    binding.btnChessPlayer2.isEnabled = true
+                    binding.btnChessPlayer2.setBackgroundColor(requireContext().getColor(R.color.white))
                     playSound(R.raw.piece_placement)
                 }
                 binding.btnChessPlayer2.setOnClickListener {
                     timerPlayer1.start()
+                    binding.btnChessPlayer1.isEnabled = true
+                    binding.btnChessPlayer1.setBackgroundColor(requireContext().getColor(R.color.white))
                     timerPlayer2.pause()
+                    binding.btnChessPlayer2.isEnabled = false
+                    binding.btnChessPlayer2.setBackgroundColor(requireContext().getColor(R.color.gray))
                     playSound(R.raw.piece_placement)
                 }
+                binding.ibChessPause.setOnClickListener {
+                    timerPlayer1.pause()
+                    timerPlayer2.pause()
+                    binding.btnChessPlayer1.isEnabled = true
+                    binding.btnChessPlayer2.isEnabled = true
+                    binding.btnChessPlayer1.setBackgroundColor(requireContext().getColor(R.color.gray))
+                    binding.btnChessPlayer2.setBackgroundColor(requireContext().getColor(R.color.gray))
 
+                }
             }
         }
     }
@@ -261,6 +276,7 @@ class GameFragment : Fragment() {
             }
             .setCancelable(false)
             .show()
+        playSound(R.raw.finished)
     }
 
     private fun playSound(@RawRes soundRes: Int) {
@@ -269,6 +285,13 @@ class GameFragment : Fragment() {
             soundMediaPlayer!!.isLooping = false
             soundMediaPlayer!!.start()
         } else {
+            //to prevent sounds collapsing;
+            //stop, release
+            soundMediaPlayer!!.stop()
+            soundMediaPlayer!!.release()
+            //and recreate
+            soundMediaPlayer = MediaPlayer.create(requireContext(), soundRes)
+            soundMediaPlayer!!.isLooping = false
             soundMediaPlayer!!.start()
         }
     }

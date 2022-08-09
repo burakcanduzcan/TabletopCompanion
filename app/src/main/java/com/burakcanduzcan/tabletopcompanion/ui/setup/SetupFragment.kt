@@ -64,7 +64,7 @@ class SetupFragment : Fragment() {
                 this.findNavController().navigate(SetupFragmentDirections.finishSetup(
                     selectedGame,
                     binding.tvOption1PlayerCount.text.toString().toInt(),
-                    binding.etOption2Duration.text.toString()
+                    binding.etOption2Duration.text.toString().toInt()
                 ))
             }
         }
