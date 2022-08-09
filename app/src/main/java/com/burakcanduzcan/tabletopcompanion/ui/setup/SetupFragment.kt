@@ -40,18 +40,24 @@ class SetupFragment : Fragment() {
     private fun setupViews() {
         //Option1 - Player Count
         var playerCount: Int = selectedGame.minPlayer
-        binding.tvOption1PlayerCount.text = playerCount.toString()
+        if (selectedGame.minPlayer == selectedGame.maxPlayer) {
+            binding.tvOption1PlayerCount.text = playerCount.toString()
+            binding.ibOption1Increase.backgroundTintList = requireContext().getColorStateList(R.color.gray)
+            binding.ibOption1Decrease.backgroundTintList = requireContext().getColorStateList(R.color.gray)
+        } else {
+            binding.tvOption1PlayerCount.text = playerCount.toString()
 
-        binding.ibOption1Increase.setOnClickListener {
-            if (playerCount < selectedGame.maxPlayer) {
-                playerCount++
-                binding.tvOption1PlayerCount.text = playerCount.toString()
+            binding.ibOption1Increase.setOnClickListener {
+                if (playerCount < selectedGame.maxPlayer) {
+                    playerCount++
+                    binding.tvOption1PlayerCount.text = playerCount.toString()
+                }
             }
-        }
-        binding.ibOption1Decrease.setOnClickListener {
-            if (playerCount > selectedGame.minPlayer) {
-                playerCount--
-                binding.tvOption1PlayerCount.text = playerCount.toString()
+            binding.ibOption1Decrease.setOnClickListener {
+                if (playerCount > selectedGame.minPlayer) {
+                    playerCount--
+                    binding.tvOption1PlayerCount.text = playerCount.toString()
+                }
             }
         }
 
