@@ -237,7 +237,7 @@ class GameFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
-            "${selectedGame.name} | Game Phase"
+            "${requireContext().getString(selectedGame.nameRes)} | Game Phase"
     }
 
     override fun onStop() {
