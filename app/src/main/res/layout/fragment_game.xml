@@ -13,13 +13,16 @@
         android:layout_height="match_parent"
         android:background="#FB8C00"
         android:visibility="gone"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvScrabble"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/cvScrabbleBottom"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,42 +30,77 @@
             android:id="@+id/cvScrabbleBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_margin="6dp"
             android:layout_marginBottom="8dp"
-            app:cardCornerRadius="20dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clScrabbleBottom"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/ibScrabbleAddWord"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="@color/blue"
+                    android:src="@drawable/ic_baseline_add_24"
+                    app:layout_constraintBottom_toTopOf="@+id/btnScrabblePass"
+                    app:layout_constraintEnd_toStartOf="@+id/tvScrabbleTimer"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:background="@color/blue"
+                    tools:ignore="ContentDescription,TouchTargetSizeCheck,SpeakableTextPresentCheck,ImageContrastCheck" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnScrabblePass"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:backgroundTint="#EF653A"
+                    android:text="@string/pass"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tvScrabbleTimer"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ibScrabbleAddWord"
+                    tools:background="#EF653A"
+                    tools:ignore="TextContrastCheck" />
 
                 <TextView
                     android:id="@+id/tvScrabbleTimer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
                     android:elevation="10dp"
                     android:textColor="@color/black"
                     android:textSize="60sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ibScrabbleTimeAction"
+                    app:layout_constraintEnd_toStartOf="@+id/ibScrabbleTimerAction"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="00:00" />
 
                 <ImageButton
-                    android:id="@+id/ibScrabbleTimeAction"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:id="@+id/ibScrabbleTimerAction"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_marginEnd="8dp"
                     android:backgroundTint="@color/green"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvScrabbleTimer"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvScrabbleTimer"
                     app:srcCompat="@drawable/ic_baseline_play_arrow_24"
                     tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
@@ -77,7 +115,7 @@
         android:layout_height="match_parent"
         android:background="#FB8C00"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <!--Player 1-->
 

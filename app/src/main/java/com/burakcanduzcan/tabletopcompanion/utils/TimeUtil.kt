@@ -13,7 +13,7 @@ object TimeUtil {
         return String.format("%02d:%02d", minutes, seconds)
     }
 
-    fun getTimeInMillisecondsFromInteger(input: Int): Long {
-        return input * 60 * 1000L
+    fun getTimeInMilliseconds(minute: Int): Long {
+        return minute * 60 * 1000L
     }
 }

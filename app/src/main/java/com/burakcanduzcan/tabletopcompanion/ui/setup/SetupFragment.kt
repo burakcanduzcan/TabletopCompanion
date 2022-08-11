@@ -1,10 +1,12 @@
 package com.burakcanduzcan.tabletopcompanion.ui.setup
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -42,8 +44,10 @@ class SetupFragment : Fragment() {
         var playerCount: Int = selectedGame.minPlayer
         if (selectedGame.minPlayer == selectedGame.maxPlayer) {
             binding.tvOption1PlayerCount.text = playerCount.toString()
-            binding.ibOption1Increase.backgroundTintList = requireContext().getColorStateList(R.color.gray)
-            binding.ibOption1Decrease.backgroundTintList = requireContext().getColorStateList(R.color.gray)
+            binding.ibOption1Increase.backgroundTintList =
+                requireContext().getColorStateList(R.color.gray)
+            binding.ibOption1Decrease.backgroundTintList =
+                requireContext().getColorStateList(R.color.gray)
         } else {
             binding.tvOption1PlayerCount.text = playerCount.toString()
 
@@ -63,16 +67,30 @@ class SetupFragment : Fragment() {
 
         //finish setup button
         binding.btnNext.setOnClickListener {
-            if (binding.etOption2Duration.text.toString().isBlank()) {
+            val duration = binding.etOption2Duration.text.toString()
+            if (duration.isBlank()) {
                 binding.etOption2Duration.error =
                     requireContext().getString(R.string.duration_field_can_not_be_empty)
-            } else {
+            } else if (duration.toInt() in 1..59) {
+                //close keyboard, should it left open
+                dismissKeyboard()
+                //finish setup
                 this.findNavController().navigate(SetupFragmentDirections.finishSetup(
                     selectedGame,
                     binding.tvOption1PlayerCount.text.toString().toInt(),
                     binding.etOption2Duration.text.toString().toInt()
                 ))
+            } else {
+                binding.etOption2Duration.error = "1-59"
             }
+        }
+    }
+
+    private fun dismissKeyboard() {
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (requireActivity().currentFocus != null) {
+            imm.hideSoftInputFromWindow(requireActivity().currentFocus!!.applicationWindowToken, 0)
         }
     }
 }

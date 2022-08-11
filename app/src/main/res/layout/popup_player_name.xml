@@ -4,12 +4,13 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/etPlayerNewName"
+        android:id="@+id/etNewName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/player_name"
+        android:hint="@string/enter_name"
         android:importantForAutofill="no"
         android:inputType="text"
+        android:textColorHint="@color/gray"
         android:textSize="18sp" />
 
 </LinearLayout>

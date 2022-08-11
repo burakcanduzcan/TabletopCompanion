@@ -10,4 +10,6 @@
     <color name="green">#00FF00</color>
     <color name="red">#FF0000</color>
     <color name="gray">#808080</color>
+    <color name="blue">#1E88E5</color>
+    <color name="pass">#EF653A</color>
 </resources>
