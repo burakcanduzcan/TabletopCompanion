@@ -30,6 +30,11 @@ class GameViewModel
     }
 
     fun scrabbleProgressGame() {
+        //remove indicator from old player
+        if (scrabbleCurrentPlayer >= 0) {
+            scrabblePlayerList[scrabbleCurrentPlayer].myTurn = false
+        }
+
         if (scrabbleCurrentPlayer < 0 || scrabbleRound < 0) {
             //if game hasn't started, initialize it
             scrabbleCurrentPlayer = 0
@@ -42,6 +47,9 @@ class GameViewModel
             scrabbleCurrentPlayer = 0
             scrabbleRound++
         }
+
+        //add indicator to new
+        scrabblePlayerList[scrabbleCurrentPlayer].myTurn = true
     }
 
     fun clearScrabbleGame() {

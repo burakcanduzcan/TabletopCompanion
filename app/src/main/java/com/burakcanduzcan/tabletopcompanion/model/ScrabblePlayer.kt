@@ -7,4 +7,5 @@ data class ScrabblePlayer(
     val listOfEnteredWords = ArrayList<String>()
     val listOfEarnedPoints = ArrayList<Int>()
     var totalPoints: Int = 0
+    var myTurn: Boolean = false
 }

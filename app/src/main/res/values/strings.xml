@@ -27,4 +27,6 @@
     <string name="duration_field_can_not_be_empty">Duration field can\'t be empty</string>
     <string name="enter_minute">Enter Minute</string>
     <string name="pass">Pass</string>
+    <string name="entered_words">Entered Words</string>
+    <string name="nothing_so_far">Nothing so far</string>
 </resources>

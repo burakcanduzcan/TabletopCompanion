@@ -71,7 +71,6 @@ class GameFragment : Fragment() {
 
         when (gameName) {
             //SETUP FOR SCRABBLE GAME
-            //todo: add an indicator for current player, aside from app bar
             getString(R.string.scrabble) -> {
                 //set game's view visible
                 binding.clScrabble.visibility = View.VISIBLE
@@ -270,12 +269,12 @@ class GameFragment : Fragment() {
 
                 //VIEWS
                 binding.ibChessPlayer1.setOnClickListener {
-                    ViewUtil.updatePlayerName(requireContext(),
+                    ViewUtil.showChangePlayerNameDialog(requireContext(),
                         binding.tvChessPlayer1,
                         layoutInflater)
                 }
                 binding.ibChessPlayer2.setOnClickListener {
-                    ViewUtil.updatePlayerName(requireContext(),
+                    ViewUtil.showChangePlayerNameDialog(requireContext(),
                         binding.tvChessPlayer2,
                         layoutInflater)
                 }
@@ -321,6 +320,17 @@ class GameFragment : Fragment() {
 
     private fun scrabbleProgressTheGame() {
         viewModel.scrabbleProgressGame()
+        //update current player's ui
+        binding.rvScrabble.adapter!!.notifyItemChanged(viewModel.scrabbleCurrentPlayer)
+        if (viewModel.scrabbleCurrentPlayer == 0) {
+            //if previous player is first player, update last player's ui
+            binding.rvScrabble.adapter!!.notifyItemChanged(viewModel.getAllScrabblePlayers().size - 1)
+        } else {
+            //else, update previous player's ui
+            binding.rvScrabble.adapter!!.notifyItemChanged(viewModel.scrabbleCurrentPlayer - 1)
+        }
+
+
         Timber.i("Scrabble: round ${viewModel.scrabbleRound} - player ${viewModel.scrabbleCurrentPlayer + 1}")
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
             "${requireContext().getString(selectedGame.nameRes)} | Round ${viewModel.scrabbleRound}, Player ${viewModel.scrabbleCurrentPlayer + 1}"
