@@ -4,7 +4,7 @@ A companion app for tabletop games. Currently supporting:
 2. Chess
 
 ## Screenshots
-<img src="screenshots/ss_menu.png" width="270" height="555"/> <img src="screenshots/ss_chess_game.png" width="270" height="555"/>
+<img src="screenshots/ss_menu.png" width="270" height="555"/> <img src="screenshots/ss_chess_game.png" width="270" height="555"/> <img src="screenshots/ss_scrabble_game.png" width="270" height="555"/>
 
 
 ## Libraries
