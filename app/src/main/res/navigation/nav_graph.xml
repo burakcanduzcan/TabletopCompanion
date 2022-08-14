@@ -13,6 +13,8 @@
         <action
             android:id="@+id/gameSelection"
             app:destination="@id/setupFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpToInclusive="false" />
     </fragment>
     <fragment
@@ -23,6 +25,8 @@
         <action
             android:id="@+id/finishSetup"
             app:destination="@id/gameFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/infoFragment" />
         <argument
             android:name="game_enum"
@@ -36,6 +40,8 @@
         <action
             android:id="@+id/returnBackToMainScreen"
             app:destination="@id/infoFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim"
             app:popUpTo="@id/infoFragment" />
         <argument
             android:name="game_enum"
