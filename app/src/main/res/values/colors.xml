@@ -13,4 +13,6 @@
     <color name="gray">#808080</color>
     <color name="blue">#1E88E5</color>
     <color name="pass">#EF653A</color>
+    <color name="increase">#7CB342</color>
+    <color name="decrease">#E53935</color>
 </resources>

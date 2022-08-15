@@ -42,7 +42,9 @@ class SetupFragment : Fragment() {
     private fun setupViews() {
         //Option1 - Player Count
         var playerCount: Int = selectedGame.minPlayer
+
         if (selectedGame.minPlayer == selectedGame.maxPlayer) {
+            //if game has fixed amount of players, disable increase-decrease buttons
             binding.tvOption1PlayerCount.text = playerCount.toString()
             binding.ibOption1Increase.backgroundTintList =
                 requireContext().getColorStateList(R.color.gray)
@@ -50,17 +52,45 @@ class SetupFragment : Fragment() {
                 requireContext().getColorStateList(R.color.gray)
         } else {
             binding.tvOption1PlayerCount.text = playerCount.toString()
+            //because minimum number of player is already assigned, disable decrease button for now
+            binding.ibOption1Decrease.isEnabled = false
+            binding.ibOption1Decrease.backgroundTintList =
+                requireContext().getColorStateList(R.color.gray)
 
             binding.ibOption1Increase.setOnClickListener {
+                //if player number can be increased
                 if (playerCount < selectedGame.maxPlayer) {
+                    //enable decrease button
+                    binding.ibOption1Decrease.isEnabled = true
+                    binding.ibOption1Decrease.backgroundTintList =
+                        requireContext().getColorStateList(R.color.decrease)
+
                     playerCount++
                     binding.tvOption1PlayerCount.text = playerCount.toString()
+                    //if current player count is the maximum amount, disable increase button
+                    if (playerCount == selectedGame.maxPlayer) {
+                        binding.ibOption1Increase.isEnabled = false
+                        binding.ibOption1Increase.backgroundTintList =
+                            requireContext().getColorStateList(R.color.gray)
+                    }
                 }
             }
             binding.ibOption1Decrease.setOnClickListener {
+                //if player number can be decreased
                 if (playerCount > selectedGame.minPlayer) {
+                    //enable increase button
+                    binding.ibOption1Increase.isEnabled = true
+                    binding.ibOption1Increase.backgroundTintList =
+                        requireContext().getColorStateList(R.color.increase)
+
                     playerCount--
                     binding.tvOption1PlayerCount.text = playerCount.toString()
+                    //if current player count is the minimum amount, disable decrease button
+                    if (playerCount == selectedGame.minPlayer) {
+                        binding.ibOption1Decrease.isEnabled = false
+                        binding.ibOption1Decrease.backgroundTintList =
+                            requireContext().getColorStateList(R.color.gray)
+                    }
                 }
             }
         }
