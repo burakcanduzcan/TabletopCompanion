@@ -400,9 +400,14 @@ class GameFragment : Fragment() {
         }
 
         //initializing view
+        val combinedList = ArrayList<String>()
+        for (i in 0 until scrabblePlayer.listOfEnteredWords.size) {
+            combinedList.add("${scrabblePlayer.listOfEnteredWords[i]} (${scrabblePlayer.listOfEarnedPoints[i]})")
+        }
+
         popupBinding.lvEnteredItems.adapter = ArrayAdapter(requireContext(),
             android.R.layout.simple_list_item_1,
-            scrabblePlayer.listOfEnteredWords)
+            combinedList)
 
         popupBinding.ibBack.setOnClickListener {
             popupWindow.dismiss()
