@@ -48,7 +48,7 @@ class GameViewModel
             scrabbleRound++
         }
 
-        //add indicator to new
+        //add indicator to new player
         scrabblePlayerList[scrabbleCurrentPlayer].myTurn = true
     }
 
