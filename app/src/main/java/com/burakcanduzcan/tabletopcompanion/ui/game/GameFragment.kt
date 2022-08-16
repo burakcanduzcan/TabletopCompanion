@@ -2,10 +2,13 @@ package com.burakcanduzcan.tabletopcompanion.ui.game
 
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.annotation.RawRes
 import androidx.appcompat.app.AlertDialog
@@ -18,7 +21,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.burakcanduzcan.tabletopcompanion.R
 import com.burakcanduzcan.tabletopcompanion.databinding.FragmentGameBinding
 import com.burakcanduzcan.tabletopcompanion.databinding.PopupAddItemBinding
+import com.burakcanduzcan.tabletopcompanion.databinding.PopupScrabbleEnteredWordListBinding
 import com.burakcanduzcan.tabletopcompanion.model.Game
+import com.burakcanduzcan.tabletopcompanion.model.ScrabblePlayer
 import com.burakcanduzcan.tabletopcompanion.utils.TimeUtil.getFormattedTimeTextFromMilliseconds
 import com.burakcanduzcan.tabletopcompanion.utils.TimeUtil.getTimeInMilliseconds
 import com.burakcanduzcan.tabletopcompanion.utils.ViewUtil
@@ -79,12 +84,12 @@ class GameFragment : Fragment() {
                 viewModel.createScrabbleGame(args.playerCount)
 
                 //setting up recyclerView with playerList
-                binding.rvScrabble.apply {
-                    layoutManager = GridLayoutManager(requireContext(), 2)
-                    adapter = ScrabbleAdapter(viewModel.getAllScrabblePlayers(),
-                        requireContext(),
-                        layoutInflater)
-                }
+                binding.rvScrabble.layoutManager = GridLayoutManager(requireContext(), 2)
+                val scrabbleAdapter = ScrabbleAdapter(requireContext(),
+                    layoutInflater,
+                    ::scrabbleOnClickShowEnteredWordList)
+                binding.rvScrabble.adapter = scrabbleAdapter
+                scrabbleAdapter.submitList(viewModel.getAllScrabblePlayers().toMutableList())
 
                 //timer
                 var didTimerStarted = false
@@ -380,6 +385,28 @@ class GameFragment : Fragment() {
         binding.ibScrabbleTimerAction.setImageResource(R.drawable.ic_baseline_stop_24)
         binding.ibScrabbleTimerAction.backgroundTintList =
             requireContext().getColorStateList(R.color.red)
+    }
+
+    private fun scrabbleOnClickShowEnteredWordList(scrabblePlayer: ScrabblePlayer) {
+        Timber.i("Show entered word list button is clicked for ${scrabblePlayer.playerName}")
+
+        val popupBinding = PopupScrabbleEnteredWordListBinding.inflate(layoutInflater)
+
+        val width = requireActivity().windowManager.defaultDisplay.width * 8 / 10
+        val height = requireActivity().windowManager.defaultDisplay.height * 8 / 10
+        val popupWindow = PopupWindow(popupBinding.root, width, height).apply {
+            animationStyle = androidx.transition.R.style.Animation_AppCompat_Dialog
+            showAtLocation(popupBinding.root, Gravity.TOP, 0, 0)
+        }
+
+        //initializing view
+        popupBinding.lvEnteredItems.adapter = ArrayAdapter(requireContext(),
+            android.R.layout.simple_list_item_1,
+            scrabblePlayer.listOfEnteredWords)
+
+        popupBinding.ibBack.setOnClickListener {
+            popupWindow.dismiss()
+        }
     }
 
     private fun chessGameEndedWithTimerRanOut(didPlayerOneWin: Boolean) {

@@ -14,9 +14,9 @@ import com.burakcanduzcan.tabletopcompanion.databinding.PopupPlayerNameBinding
 import com.burakcanduzcan.tabletopcompanion.model.ScrabblePlayer
 
 class ScrabbleAdapter(
-    private val dataSet: ArrayList<ScrabblePlayer>,
     private val context: Context,
     private val layoutInflater: LayoutInflater,
+    private val onShowEnteredWordsClick: (ScrabblePlayer) -> Unit,
 ) : ListAdapter<ScrabblePlayer, ScrabbleAdapter.ScrabbleViewHolder>(DiffCallBack) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScrabbleViewHolder {
@@ -26,12 +26,7 @@ class ScrabbleAdapter(
     }
 
     override fun onBindViewHolder(holder: ScrabbleViewHolder, position: Int) {
-        val current = dataSet[position]
-        holder.bind(current)
-    }
-
-    override fun getItemCount(): Int {
-        return dataSet.size
+        holder.bind(getItem(position))
     }
 
     inner class ScrabbleViewHolder(
@@ -56,7 +51,7 @@ class ScrabbleAdapter(
                         } else {
                             scrabblePlayer.playerName = dialogBinding.etNewName.text.toString()
                         }
-                        binding.tvPlayerName.text = scrabblePlayer.playerName
+                        this@ScrabbleAdapter.notifyItemChanged(adapterPosition)
                     }
                     .setNegativeButton(context.getString(R.string.cancel), null)
                     .setCancelable(false)
@@ -66,20 +61,31 @@ class ScrabbleAdapter(
             //list of entered words
             val listOfTextViews =
                 arrayListOf(binding.tv1, binding.tv2, binding.tv3, binding.tv4)
-
             if (scrabblePlayer.listOfEnteredWords.size == 0) {
                 //if no word is entered, indicate it with a single textView
                 listOfTextViews[0].visibility = View.VISIBLE
                 listOfTextViews[0].text = context.getString(R.string.nothing_so_far)
+                //make rest of them gone
+                for (i in 1 until 4) {
+                    listOfTextViews[i].visibility = View.GONE
+                    listOfTextViews[i].text = ""
+                }
             } else if (scrabblePlayer.listOfEnteredWords.size <= 4) {
-                //if there are less than 3 but higher than 0 entered words, show them
+                //if there are less than 5 but higher than 0 entered words, show them
                 for (i in 0 until scrabblePlayer.listOfEnteredWords.size) {
                     listOfTextViews[i].visibility = View.VISIBLE
                     listOfTextViews[i].text = scrabblePlayer.listOfEnteredWords[i]
                 }
+                //but if they don't fill whole space, make rest of them gone
+                if (scrabblePlayer.listOfEnteredWords.size < 4) {
+                    for (i in scrabblePlayer.listOfEnteredWords.size until 4) {
+                        listOfTextViews[i].visibility = View.GONE
+                        listOfTextViews[i].text = ""
+                    }
+                }
             } else {
-                //only left range is where enteredWords > 4. in that case,
-                //show only two last entered words
+                //the only range that is left is where enteredWords > 4.
+                //in that case, show only two last entered words
                 for (i in listOfTextViews) {
                     i.visibility = View.VISIBLE
                 }
@@ -91,34 +97,36 @@ class ScrabbleAdapter(
                 binding.tv4.text = scrabblePlayer.listOfEnteredWords.last()
             }
 
+            //button for showing list of entered words button
+            binding.ibEnteredWords.setOnClickListener {
+                onShowEnteredWordsClick(getItem(adapterPosition))
+            }
+
             //show player score
             binding.tvScore.text = scrabblePlayer.totalPoints.toString()
 
             //color indicator
             if (scrabblePlayer.myTurn) {
                 binding.cvPlayer.strokeColor = context.getColor(R.color.red)
-                //binding.cvPlayer.setStrokeWidth(10)
             } else {
                 binding.cvPlayer.strokeColor = context.getColor(R.color.white)
             }
         }
     }
 
-    companion object {
-        private val DiffCallBack = object : DiffUtil.ItemCallback<ScrabblePlayer>() {
-            override fun areItemsTheSame(
-                oldItem: ScrabblePlayer,
-                newItem: ScrabblePlayer,
-            ): Boolean {
-                return oldItem == newItem
-            }
+    object DiffCallBack : DiffUtil.ItemCallback<ScrabblePlayer>() {
+        override fun areItemsTheSame(
+            oldItem: ScrabblePlayer,
+            newItem: ScrabblePlayer,
+        ): Boolean {
+            return oldItem.playerNumber == newItem.playerNumber
+        }
 
-            override fun areContentsTheSame(
-                oldItem: ScrabblePlayer,
-                newItem: ScrabblePlayer,
-            ): Boolean {
-                return oldItem.totalPoints == newItem.totalPoints
-            }
+        override fun areContentsTheSame(
+            oldItem: ScrabblePlayer,
+            newItem: ScrabblePlayer,
+        ): Boolean {
+            return (oldItem.playerName == newItem.playerName && oldItem.totalPoints == newItem.totalPoints)
         }
     }
 }

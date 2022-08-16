@@ -53,13 +53,23 @@
                 android:id="@+id/tvEnteredWordsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/entered_words"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvPlayerName" />
+
+            <ImageButton
+                android:id="@+id/ibEnteredWords"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:backgroundTint="@color/blue"
+                app:layout_constraintBottom_toBottomOf="@+id/tvEnteredWordsTitle"
+                app:layout_constraintStart_toEndOf="@+id/tvEnteredWordsTitle"
+                app:layout_constraintTop_toTopOf="@+id/tvEnteredWordsTitle"
+                app:srcCompat="@drawable/ic_baseline_search_24"
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <LinearLayout
                 android:id="@+id/llEnteredWords"
@@ -120,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/points"
                 android:textColor="@color/black"
                 android:textSize="20sp"
