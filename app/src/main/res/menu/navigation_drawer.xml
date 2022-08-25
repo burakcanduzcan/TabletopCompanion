@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/category1"
+        android:title="@string/games">
+        <menu>
+            <item
+                android:id="@+id/game1"
+                android:checkable="true"
+                android:icon="@drawable/ic_baseline_adb_24"
+                android:title="@string/scrabble"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/game2"
+                android:checkable="true"
+                android:icon="@drawable/ic_baseline_adb_24"
+                android:title="@string/chess"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/game3"
+                android:checkable="true"
+                android:title="@string/unimplemented"
+                app:showAsAction="ifRoom" />
+        </menu>
+    </item>
+</menu>
