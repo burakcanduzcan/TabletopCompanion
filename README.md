@@ -1,8 +1,6 @@
 # TabletopCompanion 
 
-A companion app for tabletop games. Currently supporting:
-1. Scrabble
-2. Chess
+A companion app for tabletop games; substitute for pen, paper or clock. Currently supporting Scrabble and chess.
  
 <a href="https://play.google.com/store/apps/details?id=com.burakcanduzcan.tabletopcompanion">
     <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
