@@ -1,11 +1,9 @@
 # TabletopCompanion 
 
-A companion app for tabletop games; substitute for pen, paper or clock. Currently supporting Scrabble and chess.
- 
-<a href="https://play.google.com/store/apps/details?id=com.burakcanduzcan.tabletopcompanion">
-    <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
-        alt="Get it on Google Play" height="80"/>
+A companion app for tabletop games; substitute for pen, paper and clock. Currently supporting Scrabble and chess.
 
+[<img alt="Get it on Google Play" height="80" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />](https://play.google.com/store/apps/details?id=com.burakcanduzcan.tabletopcompanion)
+ 
 ## Screenshots
 <img src="screenshots/ss_menu.png" width="270" height="555"/> <img src="screenshots/ss_setup.png" width="270" height="555"/> 
 
@@ -13,12 +11,12 @@ A companion app for tabletop games; substitute for pen, paper or clock. Currentl
 
 
 ## Libraries
-- [Timber](https://github.com/JakeWharton/timber)
+- Timber ([link](https://github.com/JakeWharton/timber))
 - Navigation Component (with SafeArgs)
-- [CircleImageView](https://github.com/hdodenhof/CircleImageView)
+- CircleImageView ([link](https://github.com/hdodenhof/CircleImageView)) 
 - Hilt
 - SplashScreen
-- [dariobrux/Timer](https://github.com/dariobrux/Timer)
+- dariobrux/Timer ([link](https://github.com/dariobrux/Timer)) 
 
 ## Credits
 [piece_placement.mp3](https://freesound.org/people/el_boss/sounds/546119/) by el_boss
