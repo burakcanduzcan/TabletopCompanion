@@ -1,7 +1,11 @@
-# TabletopCompanion
+# TabletopCompanion 
+
+[![Get it on Google Play](https://i.imgur.com/T9HnFlW.png)](https://play.google.com/store/apps/details?id=com.burakcanduzcan.tabletopcompanion)  
+
 A companion app for tabletop games. Currently supporting:
 1. Scrabble
 2. Chess
+ 
 
 ## Screenshots
 <img src="screenshots/ss_menu.png" width="270" height="555"/> <img src="screenshots/ss_setup.png" width="270" height="555"/> 
