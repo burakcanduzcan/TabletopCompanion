@@ -40,7 +40,7 @@ class InfoFragment : Fragment() {
 
     private fun onClick(game: Game) {
         this.findNavController().navigate(InfoFragmentDirections.gameSelection(game))
-        Timber.i("Game ${game.name} is clicked")
+        Timber.d("Game ${game.name} is clicked")
     }
 
 }

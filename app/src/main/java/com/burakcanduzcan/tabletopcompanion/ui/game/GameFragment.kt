@@ -55,9 +55,11 @@ class GameFragment : Fragment() {
 
         //getting selected game from navigation component
         selectedGame = args.gameEnum
-        Timber.i("Game: ${selectedGame.name}, player count: ${args.playerCount}, duration per player: ${args.playerRoundDuration}min/${
-            getTimeInMilliseconds(args.playerRoundDuration)
-        }ms")
+        Timber.d(
+            "Game: ${selectedGame.name}, player count: ${args.playerCount}, duration per player: ${args.playerRoundDuration}min/${
+                getTimeInMilliseconds(args.playerRoundDuration)
+            }ms"
+        )
 
         gameLayoutList.add(binding.clScrabble)
         gameLayoutList.add(binding.clChess)
@@ -68,7 +70,7 @@ class GameFragment : Fragment() {
     }
 
     private fun setViewsForGame(gameName: String) {
-        Timber.i("Initializing view for $gameName")
+        Timber.d("Initializing view for $gameName")
         //setting every view to invisible
         for (cl in gameLayoutList) {
             cl.visibility = View.GONE
@@ -85,9 +87,11 @@ class GameFragment : Fragment() {
 
                 //setting up recyclerView with playerList
                 binding.rvScrabble.layoutManager = GridLayoutManager(requireContext(), 2)
-                val scrabbleAdapter = ScrabbleAdapter(requireContext(),
+                val scrabbleAdapter = ScrabbleAdapter(
+                    requireContext(),
                     layoutInflater,
-                    ::scrabbleOnClickShowEnteredWordList)
+                    ::scrabbleOnClickShowEnteredWordList
+                )
                 binding.rvScrabble.adapter = scrabbleAdapter
                 scrabbleAdapter.submitList(viewModel.getAllScrabblePlayers().toMutableList())
 
@@ -171,9 +175,11 @@ class GameFragment : Fragment() {
                                     .toInt()
                                 //add these to the list
                                 viewModel.getAllScrabblePlayers()[viewModel.scrabbleCurrentPlayer].listOfEnteredWords.add(
-                                    enteredWord)
+                                    enteredWord
+                                )
                                 viewModel.getAllScrabblePlayers()[viewModel.scrabbleCurrentPlayer].listOfEarnedPoints.add(
-                                    enteredPoint)
+                                    enteredPoint
+                                )
                                 //calculate new sum
                                 viewModel.getAllScrabblePlayers()[viewModel.scrabbleCurrentPlayer].totalPoints =
                                     viewModel.getAllScrabblePlayers()[viewModel.scrabbleCurrentPlayer].totalPoints + enteredPoint
@@ -183,9 +189,11 @@ class GameFragment : Fragment() {
                                 scrabbleProgressTheGame()
                             } else {
                                 //display warning that fields were empty, so couldn't added
-                                Toast.makeText(requireContext(),
+                                Toast.makeText(
+                                    requireContext(),
                                     requireContext().getString(R.string.could_not_add_word),
-                                    Toast.LENGTH_SHORT).show()
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
                         .setNegativeButton(requireContext().getString(R.string.cancel), null)
@@ -195,7 +203,7 @@ class GameFragment : Fragment() {
 
                 //pass button
                 binding.btnScrabblePass.setOnClickListener {
-                    Timber.i("Player ${viewModel.scrabbleCurrentPlayer + 1} passed their turn")
+                    Timber.d("Player ${viewModel.scrabbleCurrentPlayer + 1} passed their turn")
                     //progress the game
                     scrabbleProgressTheGame()
                 }
@@ -228,7 +236,8 @@ class GameFragment : Fragment() {
                     setDuration(getTimeInMilliseconds(args.playerRoundDuration))
                     binding.tvChessTimePlayer1.text =
                         getFormattedTimeTextFromMilliseconds(
-                            getTimeInMilliseconds(args.playerRoundDuration))
+                            getTimeInMilliseconds(args.playerRoundDuration)
+                        )
                     setIsDaemon(false)
                     setStartDelay(0L)
                 }
@@ -236,7 +245,8 @@ class GameFragment : Fragment() {
                     setDuration(getTimeInMilliseconds(args.playerRoundDuration))
                     binding.tvChessTimePlayer2.text =
                         getFormattedTimeTextFromMilliseconds(
-                            getTimeInMilliseconds(args.playerRoundDuration))
+                            getTimeInMilliseconds(args.playerRoundDuration)
+                        )
                     setIsDaemon(false)
                     setStartDelay(0L)
                 }
@@ -251,7 +261,7 @@ class GameFragment : Fragment() {
 
                     override fun onTimerEnded() {
                         super.onTimerEnded()
-                        Timber.i("Chess - Player 1 ran out of time")
+                        Timber.d("Chess - Player 1 ran out of time")
                         binding.btnChessPlayer1.setBackgroundColor(requireContext().getColor(R.color.red))
                         chessGameEndedWithTimerRanOut(false)
                     }
@@ -265,7 +275,7 @@ class GameFragment : Fragment() {
 
                     override fun onTimerEnded() {
                         super.onTimerEnded()
-                        Timber.i("Chess - Player 2 ran out of time")
+                        Timber.d("Chess - Player 2 ran out of time")
                         binding.btnChessPlayer2.setBackgroundColor(requireContext().getColor(R.color.red))
                         chessGameEndedWithTimerRanOut(true)
                     }
@@ -274,14 +284,18 @@ class GameFragment : Fragment() {
 
                 //VIEWS
                 binding.ibChessPlayer1.setOnClickListener {
-                    ViewUtil.showChangePlayerNameDialog(requireContext(),
+                    ViewUtil.showChangePlayerNameDialog(
+                        requireContext(),
                         binding.tvChessPlayer1,
-                        layoutInflater)
+                        layoutInflater
+                    )
                 }
                 binding.ibChessPlayer2.setOnClickListener {
-                    ViewUtil.showChangePlayerNameDialog(requireContext(),
+                    ViewUtil.showChangePlayerNameDialog(
+                        requireContext(),
                         binding.tvChessPlayer2,
-                        layoutInflater)
+                        layoutInflater
+                    )
                 }
                 binding.btnChessPlayer1.setOnClickListener {
                     timerPlayer1.pause()
@@ -336,7 +350,7 @@ class GameFragment : Fragment() {
         }
 
 
-        Timber.i("Scrabble: round ${viewModel.scrabbleRound} - player ${viewModel.scrabbleCurrentPlayer + 1}")
+        Timber.d("Scrabble: round ${viewModel.scrabbleRound} - player ${viewModel.scrabbleCurrentPlayer + 1}")
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
             "${requireContext().getString(selectedGame.nameRes)} | Round ${viewModel.scrabbleRound}, Player ${viewModel.scrabbleCurrentPlayer + 1}"
 
@@ -388,7 +402,7 @@ class GameFragment : Fragment() {
     }
 
     private fun scrabbleOnClickShowEnteredWordList(scrabblePlayer: ScrabblePlayer) {
-        Timber.i("Show entered word list button is clicked for ${scrabblePlayer.playerName}")
+        Timber.d("Show entered word list button is clicked for ${scrabblePlayer.playerName}")
 
         val popupBinding = PopupScrabbleEnteredWordListBinding.inflate(layoutInflater)
 
@@ -405,9 +419,11 @@ class GameFragment : Fragment() {
             combinedList.add("${scrabblePlayer.listOfEnteredWords[i]} (${scrabblePlayer.listOfEarnedPoints[i]})")
         }
 
-        popupBinding.lvEnteredItems.adapter = ArrayAdapter(requireContext(),
+        popupBinding.lvEnteredItems.adapter = ArrayAdapter(
+            requireContext(),
             android.R.layout.simple_list_item_1,
-            combinedList)
+            combinedList
+        )
 
         popupBinding.ibBack.setOnClickListener {
             popupWindow.dismiss()
