@@ -11,9 +11,10 @@ enum class Game(
     val maxPlayer: Int,
 ) {
     SCRABBLE(R.string.scrabble, R.drawable.scrabble_letter, 2, 4),
-    CHESS(R.string.chess, R.drawable.knight, 2, 2);
+    CHESS(R.string.chess, R.drawable.knight, 2, 2),
+    FARKLE(R.string.farkle, R.drawable.dice, 0, 0);
 
     companion object {
-        fun getList(): List<Game> = values().toList()
+        fun getList(): List<Game> = entries
     }
 }
