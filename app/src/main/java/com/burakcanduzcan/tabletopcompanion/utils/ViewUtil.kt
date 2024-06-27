@@ -8,7 +8,11 @@ import com.burakcanduzcan.tabletopcompanion.R
 import com.burakcanduzcan.tabletopcompanion.databinding.PopupPlayerNameBinding
 
 object ViewUtil {
-    fun showChangePlayerNameDialog(context: Context, textViewToUpdate: TextView, inflater: LayoutInflater) {
+    fun showChangePlayerNameDialog(
+        context: Context,
+        textViewToUpdate: TextView,
+        inflater: LayoutInflater
+    ) {
         val dialogBinding = PopupPlayerNameBinding.inflate(inflater)
         AlertDialog.Builder(context)
             .setView(dialogBinding.root)
