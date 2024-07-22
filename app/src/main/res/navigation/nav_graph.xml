@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/infoFragment"
-        android:name="com.burakcanduzcan.tabletopcompanion.ui.info.InfoFragment"
+        android:name="com.burakcanduzcan.tabletopcompanion.ui.game_collection.GameCollectionFragment"
         android:label="fragment_info"
-        tools:layout="@layout/fragment_info">
+        tools:layout="@layout/fragment_game_collection">
         <action
             android:id="@+id/gameSelection"
             app:destination="@id/setupFragment"
