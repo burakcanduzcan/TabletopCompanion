@@ -18,7 +18,7 @@ class GameCollectionFragment :
 
     override fun initUi() {
         binding.rvGameList.layoutManager = GridLayoutManager(requireContext(), 1)
-        binding.rvGameList.adapter = GameListAdapter(requireContext(), Game.getList()) { game ->
+        binding.rvGameList.adapter = GameListAdapter(Game.getList()) { game ->
             safeClick {
                 this.findNavController()
                     .navigate(GameCollectionFragmentDirections.gameSelection(game))
