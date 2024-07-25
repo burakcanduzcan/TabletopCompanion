@@ -14,6 +14,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class GameCollectionFragment :
     BaseFragment<FragmentGameCollectionBinding>(FragmentGameCollectionBinding::inflate) {
+
     override val viewModel: GameCollectionViewModel by viewModels()
 
     override fun initUi() {
