@@ -49,21 +49,18 @@ class SetupFragment : BaseFragment<FragmentSetupBinding>(FragmentSetupBinding::i
             }
 
             binding.ibOption1Decrease.setOnClickListener {
-                //if player number can be decreased
-                if (viewModel.playerCount.value!! > viewModel.selectedGame.minPlayer) {
-                    viewModel.decreasePlayerCount()
+                viewModel.decreasePlayerCount()
 
-                    //enable increase button
-                    binding.ibOption1Increase.isEnabled = true
-                    binding.ibOption1Increase.backgroundTintList =
-                        requireContext().getColorStateList(R.color.increase)
+                //enable increase button
+                binding.ibOption1Increase.isEnabled = true
+                binding.ibOption1Increase.backgroundTintList =
+                    requireContext().getColorStateList(R.color.increase)
 
-                    //if current player count is the minimum amount, disable decrease button
-                    if (viewModel.isPlayerCountMinimum()) {
-                        binding.ibOption1Decrease.isEnabled = false
-                        binding.ibOption1Decrease.backgroundTintList =
-                            requireContext().getColorStateList(R.color.gray)
-                    }
+                //if current player count is the minimum amount, disable decrease button
+                if (viewModel.isPlayerCountMinimum()) {
+                    binding.ibOption1Decrease.isEnabled = false
+                    binding.ibOption1Decrease.backgroundTintList =
+                        requireContext().getColorStateList(R.color.gray)
                 }
             }
         }
@@ -71,41 +68,38 @@ class SetupFragment : BaseFragment<FragmentSetupBinding>(FragmentSetupBinding::i
 
         //finish setup button
         binding.btnFinish.setOnClickListener {
-            val duration = binding.etDuration.text.toString()
-            if (duration.isBlank()) {
-                binding.etDuration.error =
-                    requireContext().getString(R.string.duration_field_can_not_be_empty)
-            } else if (duration.toInt() in 1..59) {
-                //close keyboard, should it left open
+            binding.etDuration.text.toString().let { duration ->
+                if (duration.isBlank()) {
+                    binding.etDuration.error =
+                        requireContext().getString(R.string.duration_field_can_not_be_empty)
+                } else if (duration.toInt() in 1..59) {
+                    //close keyboard, should it left open
+                    dismissKeyboard()
 
-                dismissKeyboard()
-
-                //navigate
-                when (viewModel.selectedGame) {
-                    Game.SCRABBLE -> {
-                        this.findNavController().navigate(
-                            SetupFragmentDirections.finishSetup(
-                                viewModel.selectedGame,
-                                binding.tvPlayerCount.text.toString().toInt(),
-                                binding.etDuration.text.toString().toInt()
+                    //navigate
+                    when (viewModel.selectedGame) {
+                        Game.SCRABBLE -> {
+                            this.findNavController().navigate(
+                                SetupFragmentDirections.finishSetup(
+                                    viewModel.selectedGame,
+                                    binding.tvPlayerCount.text.toString().toInt(),
+                                    duration.toInt()
+                                )
                             )
-                        )
-                    }
+                        }
 
-                    Game.CHESS -> {
-                        // TODO: get duration from viewModel
-                        this.findNavController().navigate(
-                            SetupFragmentDirections.actionSetupFragmentToChessFragment(
-                                binding.etDuration.text.toString().toInt()
+                        Game.CHESS -> {
+                            this.findNavController().navigate(
+                                SetupFragmentDirections.actionSetupFragmentToChessFragment(duration.toInt())
                             )
-                        )
-                    }
+                        }
 
-                    else -> {
+                        else -> {
+                        }
                     }
+                } else {
+                    binding.etDuration.error = "1-59"
                 }
-            } else {
-                binding.etDuration.error = "1-59"
             }
         }
     }
