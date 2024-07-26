@@ -27,10 +27,15 @@
             app:destination="@id/gameFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/infoFragment" />
+            app:popUpToInclusive="false" />
         <argument
             android:name="game_enum"
             app:argType="com.burakcanduzcan.tabletopcompanion.model.Game" />
+        <action
+            android:id="@+id/action_setupFragment_to_chessFragment"
+            app:destination="@id/chessFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
@@ -42,7 +47,8 @@
             app:destination="@id/infoFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:popExitAnim="@anim/nav_default_exit_anim"
-            app:popUpTo="@id/infoFragment" />
+            app:popUpTo="@id/infoFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="game_enum"
             app:argType="com.burakcanduzcan.tabletopcompanion.model.Game" />
@@ -52,5 +58,19 @@
         <argument
             android:name="playerRoundDuration"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/chessFragment"
+        android:name="com.burakcanduzcan.tabletopcompanion.ui.chess.ChessFragment"
+        android:label="fragment_chess"
+        tools:layout="@layout/fragment_chess">
+        <argument
+            android:name="roundDurationInMinute"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_chessFragment_to_infoFragment"
+            app:destination="@id/infoFragment"
+            app:popUpTo="@id/infoFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
