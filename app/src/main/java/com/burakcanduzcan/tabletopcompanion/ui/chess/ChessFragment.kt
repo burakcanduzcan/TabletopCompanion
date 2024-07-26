@@ -1,7 +1,5 @@
 package com.burakcanduzcan.tabletopcompanion.ui.chess
 
-import android.media.MediaPlayer
-import androidx.annotation.RawRes
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,8 +18,6 @@ class ChessFragment : BaseFragment<FragmentChessBinding>(FragmentChessBinding::i
 
     override val viewModel: ChessViewModel by viewModels()
     private val args: ChessFragmentArgs by navArgs()
-
-    private var soundMediaPlayer: MediaPlayer? = null
 
     override fun initUi() {
         //TIMERS
@@ -114,12 +110,6 @@ class ChessFragment : BaseFragment<FragmentChessBinding>(FragmentChessBinding::i
         setTitle("${requireContext().getString(Game.CHESS.nameRes)} | Setup Phase")
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        soundMediaPlayer?.release()
-        soundMediaPlayer = null
-    }
-
     private fun chessGameEndedWithTimerRanOut(didPlayerOneWin: Boolean) {
         val wonPlayer: String = if (didPlayerOneWin) {
             binding.tvPlayerOneName.text.toString()
@@ -136,22 +126,5 @@ class ChessFragment : BaseFragment<FragmentChessBinding>(FragmentChessBinding::i
             .setCancelable(false)
             .show()
         playSound(R.raw.finished)
-    }
-
-    private fun playSound(@RawRes soundRes: Int) {
-        if (soundMediaPlayer == null) {
-            soundMediaPlayer = MediaPlayer.create(requireContext(), soundRes)
-            soundMediaPlayer!!.isLooping = false
-            soundMediaPlayer!!.start()
-        } else {
-            //to prevent sounds collapsing;
-            //stop, release
-            soundMediaPlayer!!.stop()
-            soundMediaPlayer!!.release()
-            //and recreate
-            soundMediaPlayer = MediaPlayer.create(requireContext(), soundRes)
-            soundMediaPlayer!!.isLooping = false
-            soundMediaPlayer!!.start()
-        }
     }
 }

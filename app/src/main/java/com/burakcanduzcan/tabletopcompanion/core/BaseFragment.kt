@@ -1,11 +1,13 @@
 package com.burakcanduzcan.tabletopcompanion.core
 
 import android.content.Context
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.RawRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -21,6 +23,7 @@ abstract class BaseFragment<T : ViewBinding>(
     abstract val viewModel: ViewModel
 
     private var isClickable = true
+    private var soundMediaPlayer: MediaPlayer? = null
 
     abstract fun initUi()
     abstract fun initListeners()
@@ -47,6 +50,12 @@ abstract class BaseFragment<T : ViewBinding>(
         _binding = null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        soundMediaPlayer?.release()
+        soundMediaPlayer = null
+    }
+
     protected fun safeClick(action: () -> Unit) {
         if (isClickable) {
             isClickable = false
@@ -67,6 +76,23 @@ abstract class BaseFragment<T : ViewBinding>(
             requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (requireActivity().currentFocus != null) {
             imm.hideSoftInputFromWindow(requireActivity().currentFocus!!.applicationWindowToken, 0)
+        }
+    }
+
+    fun playSound(@RawRes soundRes: Int) {
+        if (soundMediaPlayer == null) {
+            soundMediaPlayer = MediaPlayer.create(requireContext(), soundRes)
+            soundMediaPlayer!!.isLooping = false
+            soundMediaPlayer!!.start()
+        } else {
+            //to prevent sounds collapsing;
+            //stop, release
+            soundMediaPlayer!!.stop()
+            soundMediaPlayer!!.release()
+            //and recreate
+            soundMediaPlayer = MediaPlayer.create(requireContext(), soundRes)
+            soundMediaPlayer!!.isLooping = false
+            soundMediaPlayer!!.start()
         }
     }
 }
