@@ -114,6 +114,12 @@ class ChessFragment : BaseFragment<FragmentChessBinding>(FragmentChessBinding::i
         setTitle("${requireContext().getString(Game.CHESS.nameRes)} | Setup Phase")
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        soundMediaPlayer?.release()
+        soundMediaPlayer = null
+    }
+
     private fun chessGameEndedWithTimerRanOut(didPlayerOneWin: Boolean) {
         val wonPlayer: String = if (didPlayerOneWin) {
             binding.tvPlayerOneName.text.toString()
