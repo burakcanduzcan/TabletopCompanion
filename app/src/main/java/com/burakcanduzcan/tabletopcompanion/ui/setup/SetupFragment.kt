@@ -6,13 +6,13 @@ import androidx.navigation.fragment.navArgs
 import com.burakcanduzcan.tabletopcompanion.R
 import com.burakcanduzcan.tabletopcompanion.core.BaseFragment
 import com.burakcanduzcan.tabletopcompanion.databinding.FragmentSetupBinding
+import com.burakcanduzcan.tabletopcompanion.model.Game
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SetupFragment : BaseFragment<FragmentSetupBinding>(FragmentSetupBinding::inflate) {
 
     override val viewModel: SetupViewModel by viewModels()
-
     private val args: SetupFragmentArgs by navArgs()
 
     override fun initUi() {
@@ -70,26 +70,42 @@ class SetupFragment : BaseFragment<FragmentSetupBinding>(FragmentSetupBinding::i
         //endregion
 
         //finish setup button
-        binding.btnNext.setOnClickListener {
-            val duration = binding.etOption2Duration.text.toString()
+        binding.btnFinish.setOnClickListener {
+            val duration = binding.etDuration.text.toString()
             if (duration.isBlank()) {
-                binding.etOption2Duration.error =
+                binding.etDuration.error =
                     requireContext().getString(R.string.duration_field_can_not_be_empty)
             } else if (duration.toInt() in 1..59) {
                 //close keyboard, should it left open
 
                 dismissKeyboard()
 
-                //finish setup
-                this.findNavController().navigate(
-                    SetupFragmentDirections.finishSetup(
-                        viewModel.selectedGame,
-                        binding.tvOption1PlayerCount.text.toString().toInt(),
-                        binding.etOption2Duration.text.toString().toInt()
-                    )
-                )
+                //navigate
+                when (viewModel.selectedGame) {
+                    Game.SCRABBLE -> {
+                        this.findNavController().navigate(
+                            SetupFragmentDirections.finishSetup(
+                                viewModel.selectedGame,
+                                binding.tvPlayerCount.text.toString().toInt(),
+                                binding.etDuration.text.toString().toInt()
+                            )
+                        )
+                    }
+
+                    Game.CHESS -> {
+                        // TODO: get duration from viewModel
+                        this.findNavController().navigate(
+                            SetupFragmentDirections.actionSetupFragmentToChessFragment(
+                                binding.etDuration.text.toString().toInt()
+                            )
+                        )
+                    }
+
+                    else -> {
+                    }
+                }
             } else {
-                binding.etOption2Duration.error = "1-59"
+                binding.etDuration.error = "1-59"
             }
         }
     }
@@ -98,7 +114,7 @@ class SetupFragment : BaseFragment<FragmentSetupBinding>(FragmentSetupBinding::i
 
     override fun initObservables() {
         viewModel.playerCount.observe(viewLifecycleOwner) {
-            binding.tvOption1PlayerCount.text = it.toString()
+            binding.tvPlayerCount.text = it.toString()
         }
     }
 

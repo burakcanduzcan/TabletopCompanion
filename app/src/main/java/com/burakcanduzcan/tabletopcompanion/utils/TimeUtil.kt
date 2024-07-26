@@ -15,7 +15,7 @@ object TimeUtil {
         return String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
     }
 
-    fun getTimeInMilliseconds(minute: Int): Long {
-        return minute * 60 * 1000L
+    fun Int.timeInMilliseconds(): Long {
+        return this * 60 * 1000L
     }
 }

@@ -13,10 +13,8 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <!--options#1-->
-
         <androidx.cardview.widget.CardView
-            android:id="@+id/cvOption1"
+            android:id="@+id/cv_option_1"
             android:layout_width="match_parent"
             android:layout_height="105dp"
             android:layout_margin="10dp"
@@ -27,7 +25,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/ivOption1Icon"
+                    android:id="@+id/iv_option_1_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
@@ -38,44 +36,44 @@
                     tools:ignore="ContentDescription,ImageContrastCheck" />
 
                 <TextView
-                    android:id="@+id/tvOption1Text"
+                    android:id="@+id/tv_option_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="@string/player_count"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/ivOption1Icon"
-                    app:layout_constraintStart_toEndOf="@+id/ivOption1Icon"
-                    app:layout_constraintTop_toTopOf="@+id/ivOption1Icon" />
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_option_1_icon"
+                    app:layout_constraintStart_toEndOf="@+id/iv_option_1_icon"
+                    app:layout_constraintTop_toTopOf="@+id/iv_option_1_icon" />
 
                 <TextView
-                    android:id="@+id/tvOption1PlayerCount"
+                    android:id="@+id/tv_player_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="44dp"
                     android:text="@string/_0"
                     android:textColor="@color/design_default_color_error"
                     android:textSize="24sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/ibOption1Decrease"
-                    app:layout_constraintEnd_toStartOf="@+id/ibOption1Increase"
-                    app:layout_constraintTop_toTopOf="@+id/ibOption1Increase" />
+                    app:layout_constraintBottom_toBottomOf="@+id/ib_option_1_decrease"
+                    app:layout_constraintEnd_toStartOf="@+id/ib_option_1_increase"
+                    app:layout_constraintTop_toTopOf="@+id/ib_option_1_increase" />
 
                 <ImageButton
-                    android:id="@+id/ibOption1Increase"
+                    android:id="@+id/ib_option_1_increase"
                     android:layout_width="60dp"
                     android:layout_height="45dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:backgroundTint="@color/increase"
                     android:src="@android:drawable/arrow_up_float"
-                    app:layout_constraintBottom_toTopOf="@+id/ibOption1Decrease"
+                    app:layout_constraintBottom_toTopOf="@+id/ib_option_1_decrease"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription,ImageContrastCheck,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                 <ImageButton
-                    android:id="@+id/ibOption1Decrease"
+                    android:id="@+id/ib_option_1_decrease"
                     android:layout_width="60dp"
                     android:layout_height="45dp"
                     android:layout_marginEnd="16dp"
@@ -84,14 +82,14 @@
                     android:src="@android:drawable/arrow_down_float"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ibOption1Increase"
+                    app:layout_constraintTop_toBottomOf="@+id/ib_option_1_increase"
                     tools:ignore="ContentDescription,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
         <!--options#2-->
         <androidx.cardview.widget.CardView
-            android:id="@+id/cvOption2"
+            android:id="@+id/cv_option_2"
             android:layout_width="match_parent"
             android:layout_height="105dp"
             android:layout_margin="10dp"
@@ -104,7 +102,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/editTextNumber">
 
                 <ImageView
-                    android:id="@+id/ivOption2Icon"
+                    android:id="@+id/iv_option_2_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
@@ -115,19 +113,19 @@
                     tools:ignore="ContentDescription,ImageContrastCheck" />
 
                 <TextView
-                    android:id="@+id/tvOption2Text"
+                    android:id="@+id/tv_option_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="@string/timer"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/ivOption2Icon"
-                    app:layout_constraintStart_toEndOf="@+id/ivOption2Icon"
-                    app:layout_constraintTop_toTopOf="@+id/ivOption2Icon" />
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_option_2_icon"
+                    app:layout_constraintStart_toEndOf="@+id/iv_option_2_icon"
+                    app:layout_constraintTop_toTopOf="@+id/iv_option_2_icon" />
 
                 <EditText
-                    android:id="@+id/etOption2Duration"
+                    android:id="@+id/et_duration"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -141,12 +139,12 @@
                     android:textColorHint="#757575"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/tvOption2Minute"
-                    app:layout_constraintStart_toEndOf="@+id/tvOption2Text"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_minute"
+                    app:layout_constraintStart_toEndOf="@+id/tv_option_2"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvOption2Minute"
+                    android:id="@+id/tv_minute"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -161,7 +159,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnNext"
+            android:id="@+id/btn_finish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
