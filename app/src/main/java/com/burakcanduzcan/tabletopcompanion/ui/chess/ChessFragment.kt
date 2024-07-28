@@ -110,16 +110,16 @@ class ChessFragment : BaseFragment<FragmentChessBinding>(FragmentChessBinding::i
         setTitle("${requireContext().getString(Game.CHESS.nameRes)} | Setup Phase")
     }
 
-    private fun chessGameEndedWithTimerRanOut(didPlayerOneWin: Boolean) {
+    private fun gameEndedWithTimerRanOut(didPlayerOneWin: Boolean) {
         val wonPlayer: String = if (didPlayerOneWin) {
             binding.tvPlayerOneName.text.toString()
         } else {
             binding.tvPlayerTwoName.text.toString()
         }
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Game Over")
-            .setMessage("$wonPlayer has won the game!")
-            .setPositiveButton("Finish game") { _, _ ->
+            .setTitle(getString(R.string.game_over))
+            .setMessage(getString(R.string.has_won_the_game, wonPlayer))
+            .setPositiveButton(getString(R.string.finish_game)) { _, _ ->
                 this.findNavController()
                     .navigate(ChessFragmentDirections.actionChessFragmentToInfoFragment())
             }
