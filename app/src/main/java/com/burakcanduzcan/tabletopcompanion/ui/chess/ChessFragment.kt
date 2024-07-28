@@ -9,7 +9,6 @@ import com.burakcanduzcan.tabletopcompanion.databinding.FragmentChessBinding
 import com.burakcanduzcan.tabletopcompanion.model.Game
 import com.burakcanduzcan.tabletopcompanion.utils.TimeUtil.getFormattedTimeTextFromMilliseconds
 import com.burakcanduzcan.tabletopcompanion.utils.TimeUtil.timeInMilliseconds
-import com.dariobrux.kotimer.Timer
 import com.dariobrux.kotimer.interfaces.OnTimerListenerAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import timber.log.Timber
@@ -20,23 +19,13 @@ class ChessFragment : BaseFragment<FragmentChessBinding>(FragmentChessBinding::i
     private val args: ChessFragmentArgs by navArgs()
 
     override fun initUi() {
-        //TIMERS
-        binding.tvTimerOne.text =
-            getFormattedTimeTextFromMilliseconds(args.roundDurationInMinute.timeInMilliseconds())
-        binding.tvTimerTwo.text =
-            getFormattedTimeTextFromMilliseconds(args.roundDurationInMinute.timeInMilliseconds())
+        val duration = args.roundDurationInMinute.timeInMilliseconds()
 
-        viewModel.timerPlayer1 = Timer().apply {
-            setDuration(args.roundDurationInMinute.timeInMilliseconds())
-            setIsDaemon(false)
-            setStartDelay(0L)
-        }
+        binding.tvTimerOne.text = getFormattedTimeTextFromMilliseconds(duration)
+        binding.tvTimerTwo.text = getFormattedTimeTextFromMilliseconds(duration)
 
-        viewModel.timerPlayer2 = Timer().apply {
-            setDuration(args.roundDurationInMinute.timeInMilliseconds())
-            setIsDaemon(false)
-            setStartDelay(0L)
-        }
+        viewModel.setupTimer(viewModel.timerPlayer1, duration)
+        viewModel.setupTimer(viewModel.timerPlayer2, duration)
     }
 
     override fun initListeners() {
@@ -44,15 +33,14 @@ class ChessFragment : BaseFragment<FragmentChessBinding>(FragmentChessBinding::i
         viewModel.timerPlayer1.setOnTimerListener(object : OnTimerListenerAdapter() {
             override fun onTimerRun(milliseconds: Long) {
                 super.onTimerRun(milliseconds)
-                binding.tvTimerOne.text =
-                    getFormattedTimeTextFromMilliseconds(milliseconds)
+                binding.tvTimerOne.text = getFormattedTimeTextFromMilliseconds(milliseconds)
             }
 
             override fun onTimerEnded() {
                 super.onTimerEnded()
                 Timber.d("Chess - Player 1 ran out of time")
                 binding.btnPlayerOne.setBackgroundColor(requireContext().getColor(R.color.red))
-                chessGameEndedWithTimerRanOut(false)
+                gameEndedWithTimerRanOut(false)
             }
         }, true)
 
@@ -67,7 +55,7 @@ class ChessFragment : BaseFragment<FragmentChessBinding>(FragmentChessBinding::i
                 super.onTimerEnded()
                 Timber.d("Chess - Player 2 ran out of time")
                 binding.btnPlayerTwo.setBackgroundColor(requireContext().getColor(R.color.red))
-                chessGameEndedWithTimerRanOut(true)
+                gameEndedWithTimerRanOut(true)
             }
         }, true)
         //endregion
