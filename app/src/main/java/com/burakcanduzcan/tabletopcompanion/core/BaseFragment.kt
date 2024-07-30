@@ -78,8 +78,8 @@ abstract class BaseFragment<T : ViewBinding>(
     fun dismissKeyboard() {
         val imm =
             requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        if (requireActivity().currentFocus != null) {
-            imm.hideSoftInputFromWindow(requireActivity().currentFocus!!.applicationWindowToken, 0)
+        requireActivity().currentFocus?.let {
+            imm.hideSoftInputFromWindow(it.applicationWindowToken, 0)
         }
     }
 
