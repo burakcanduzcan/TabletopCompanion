@@ -12,6 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 abstract class BaseFragment<T : ViewBinding>(
     private val bindingInflater: (inflater: LayoutInflater) -> T,
@@ -59,10 +63,10 @@ abstract class BaseFragment<T : ViewBinding>(
     protected fun safeClick(action: () -> Unit) {
         if (isClickable) {
             isClickable = false
-            Thread {
-                Thread.sleep(500)
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(500)
                 isClickable = true
-            }.start()
+            }
             action.invoke()
         }
     }
