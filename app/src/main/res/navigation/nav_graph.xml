@@ -39,9 +39,9 @@
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
-        android:name="com.burakcanduzcan.tabletopcompanion.ui.game.GameFragment"
+        android:name="com.burakcanduzcan.tabletopcompanion.ui.scrabble.ScrabbleFragment"
         android:label="fragment_game"
-        tools:layout="@layout/fragment_game">
+        tools:layout="@layout/fragment_scrabble">
         <action
             android:id="@+id/returnBackToMainScreen"
             app:destination="@id/infoFragment"

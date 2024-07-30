@@ -1,23 +1,18 @@
-package com.burakcanduzcan.tabletopcompanion.ui.game
+package com.burakcanduzcan.tabletopcompanion.ui.scrabble
 
-import android.media.MediaPlayer
-import android.os.Bundle
 import android.view.Gravity
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.PopupWindow
 import android.widget.Toast
-import androidx.annotation.RawRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.burakcanduzcan.tabletopcompanion.R
-import com.burakcanduzcan.tabletopcompanion.databinding.FragmentGameBinding
+import com.burakcanduzcan.tabletopcompanion.core.BaseFragment
+import com.burakcanduzcan.tabletopcompanion.databinding.FragmentScrabbleBinding
 import com.burakcanduzcan.tabletopcompanion.databinding.PopupAddItemBinding
 import com.burakcanduzcan.tabletopcompanion.databinding.PopupScrabbleEnteredWordListBinding
 import com.burakcanduzcan.tabletopcompanion.model.Game
@@ -30,31 +25,28 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class GameFragment : Fragment() {
+class ScrabbleFragment : BaseFragment<FragmentScrabbleBinding>(FragmentScrabbleBinding::inflate) {
 
-    private lateinit var binding: FragmentGameBinding
-    private val viewModel: GameViewModel by viewModels()
-
-    private val args: GameFragmentArgs by navArgs()
+    override val viewModel: ScrabbleViewModel by viewModels()
+    private val args: ScrabbleFragmentArgs by navArgs()
     private lateinit var selectedGame: Game
 
-    private var soundMediaPlayer: MediaPlayer? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        binding = FragmentGameBinding.inflate(inflater)
-
+    override fun initUi() {
         //getting selected game from navigation component
         selectedGame = args.gameEnum
-        Timber.d(
-            "Game: ${selectedGame.name}, player count: ${args.playerCount}, duration per player: ${args.playerRoundDuration}min/${(args.playerRoundDuration.timeInMilliseconds())}ms"
-        )
-
+        Timber.d("Game: ${selectedGame.name}, player count: ${args.playerCount}, duration per player: ${args.playerRoundDuration}min/${(args.playerRoundDuration.timeInMilliseconds())}ms")
         setViewsForGame(getString(Game.SCRABBLE.nameRes))
+    }
 
-        return binding.root
+    override fun initListeners() {
+    }
+
+    override fun initObservables() {
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.clearScrabbleGame()
     }
 
     private fun setViewsForGame(gameName: String) {
@@ -205,15 +197,6 @@ class GameFragment : Fragment() {
         scrabbleProgressTheGame()
     }
 
-    override fun onStop() {
-        super.onStop()
-        if (soundMediaPlayer != null) {
-            soundMediaPlayer!!.release()
-            soundMediaPlayer = null
-        }
-        viewModel.clearScrabbleGame()
-    }
-
     private fun scrabbleProgressTheGame() {
         viewModel.scrabbleProgressGame()
         //update current player's ui
@@ -305,24 +288,6 @@ class GameFragment : Fragment() {
 
         popupBinding.ibBack.setOnClickListener {
             popupWindow.dismiss()
-        }
-    }
-
-    // TODO: put this function in baseFragment 
-    private fun playSound(@RawRes soundRes: Int) {
-        if (soundMediaPlayer == null) {
-            soundMediaPlayer = MediaPlayer.create(requireContext(), soundRes)
-            soundMediaPlayer!!.isLooping = false
-            soundMediaPlayer!!.start()
-        } else {
-            //to prevent sounds collapsing;
-            //stop, release
-            soundMediaPlayer!!.stop()
-            soundMediaPlayer!!.release()
-            //and recreate
-            soundMediaPlayer = MediaPlayer.create(requireContext(), soundRes)
-            soundMediaPlayer!!.isLooping = false
-            soundMediaPlayer!!.start()
         }
     }
 }

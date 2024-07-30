@@ -1,4 +1,4 @@
-package com.burakcanduzcan.tabletopcompanion.ui.game
+package com.burakcanduzcan.tabletopcompanion.ui.scrabble
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
@@ -8,7 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class GameViewModel
+class ScrabbleViewModel
 @Inject constructor(private val application: Application) : ViewModel() {
 
     private val scrabblePlayerList = ArrayList<ScrabblePlayer>()

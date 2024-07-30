@@ -1,4 +1,4 @@
-package com.burakcanduzcan.tabletopcompanion.ui.game
+package com.burakcanduzcan.tabletopcompanion.ui.scrabble
 
 import android.content.Context
 import android.view.LayoutInflater
