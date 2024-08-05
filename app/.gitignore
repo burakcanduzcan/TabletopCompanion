@@ -1,1 +1,4 @@
 /build
+
+# Ignore the google-services.json file
+app/google-services.json
