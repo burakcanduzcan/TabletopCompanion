@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import com.dariobrux.kotimer.Timer
 
 class ChessViewModel : ViewModel() {
-    lateinit var timerPlayer1: Timer
-    lateinit var timerPlayer2: Timer
+    val timerPlayer1: Timer = Timer()
+    val timerPlayer2: Timer = Timer()
 
     fun setupTimer(
         timer: Timer,
