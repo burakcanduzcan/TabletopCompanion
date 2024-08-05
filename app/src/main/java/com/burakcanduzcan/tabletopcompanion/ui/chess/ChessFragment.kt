@@ -81,12 +81,7 @@ class ChessFragment : BaseFragment<FragmentChessBinding>(FragmentChessBinding::i
         }
 
         binding.ibPause.setOnClickListener {
-            viewModel.timerPlayer1.pause()
-            viewModel.timerPlayer2.pause()
-            binding.btnPlayerOne.isEnabled = true
-            binding.btnPlayerTwo.isEnabled = true
-            binding.btnPlayerOne.setBackgroundColor(requireContext().getColor(R.color.gray))
-            binding.btnPlayerTwo.setBackgroundColor(requireContext().getColor(R.color.gray))
+            pauseTheGame()
         }
     }
 
@@ -96,6 +91,20 @@ class ChessFragment : BaseFragment<FragmentChessBinding>(FragmentChessBinding::i
     override fun onResume() {
         super.onResume()
         setTitle("${requireContext().getString(Game.CHESS.nameRes)} | Setup Phase")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        pauseTheGame()
+    }
+
+    private fun pauseTheGame() {
+        viewModel.timerPlayer1.pause()
+        viewModel.timerPlayer2.pause()
+        binding.btnPlayerOne.isEnabled = true
+        binding.btnPlayerTwo.isEnabled = true
+        binding.btnPlayerOne.setBackgroundColor(requireContext().getColor(R.color.gray))
+        binding.btnPlayerTwo.setBackgroundColor(requireContext().getColor(R.color.gray))
     }
 
     private fun gameEndedWithTimerRanOut(didPlayerOneWin: Boolean) {
