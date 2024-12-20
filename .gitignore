@@ -1,3 +1,4 @@
+# Ignore Android Studio specific files
 *.iml
 .gradle
 /local.properties
@@ -8,11 +9,27 @@
 /.idea/navEditor.xml
 /.idea/misc.xml
 /.idea/assetWizardSettings.xml
-/.idea/misc.xml
+/.idea/deploymentTargetDropDown.xml
+/.idea/appInsightsSettings.xml
+/.idea/migrations.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/runConfigurations.xml
+/.idea/kotlinc.xml
+
+# Ignore sensitive and local configuration files
+google-services.json
+local.properties
+
+# Ignore build artifacts and outputs
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
-local.properties
-/.idea/deploymentTargetDropDown.xml
+*.apk
+*.aab
+
+# Miscellaneous
+*.log
+*.keystore
+*.jks
