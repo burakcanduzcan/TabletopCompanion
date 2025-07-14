@@ -10,8 +10,9 @@ enum class Game(
     val minPlayer: Int,
     val maxPlayer: Int,
 ) {
-    SCRABBLE(R.string.scrabble, R.drawable.scrabble_letter, 2, 4),
-    CHESS(R.string.chess, R.drawable.knight, 2, 2),
+    SCRABBLE(R.string.scrabble, R.drawable.scrabble_letter, 2, 4, true),
+    CHESS(R.string.chess, R.drawable.knight, 2, 2, true),
+    MUNCHKIN(R.string.munchkin, R.drawable.dungeon, 3, 6),
     FARKLE(R.string.farkle, R.drawable.dice, 0, 0);
 
     companion object {

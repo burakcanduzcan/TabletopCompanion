@@ -2,6 +2,7 @@
     <string name="app_name">Tabletop Companion</string>
     <string name="scrabble">Scrabble</string>
     <string name="chess">Chess</string>
+    <string name="munchkin">Munchkin</string>
     <string name="farkle">Farkle</string>
     <string name="numbered_min_max_players">%d-%d Players</string>
     <string name="numbered_min_players">%d Players</string>
