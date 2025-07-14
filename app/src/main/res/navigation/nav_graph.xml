@@ -23,8 +23,8 @@
         android:label="fragment_setup"
         tools:layout="@layout/fragment_setup">
         <action
-            android:id="@+id/finishSetup"
-            app:destination="@id/gameFragment"
+            android:id="@+id/action_setupFragment_to_scrabbleFragment"
+            app:destination="@id/scrabbleFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpToInclusive="false" />
@@ -43,9 +43,9 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
-        android:id="@+id/gameFragment"
+        android:id="@+id/scrabbleFragment"
         android:name="com.burakcanduzcan.tabletopcompanion.ui.scrabble.ScrabbleFragment"
-        android:label="fragment_game"
+        android:label="fragment_scrabble"
         tools:layout="@layout/fragment_scrabble">
         <action
             android:id="@+id/returnBackToMainScreen"
@@ -54,9 +54,6 @@
             app:popExitAnim="@anim/nav_default_exit_anim"
             app:popUpTo="@id/infoFragment"
             app:popUpToInclusive="true" />
-        <argument
-            android:name="game_enum"
-            app:argType="com.burakcanduzcan.tabletopcompanion.model.Game" />
         <argument
             android:name="playerCount"
             app:argType="integer" />

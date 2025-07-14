@@ -29,12 +29,9 @@ class ScrabbleFragment : BaseFragment<FragmentScrabbleBinding>(FragmentScrabbleB
 
     override val viewModel: ScrabbleViewModel by viewModels()
     private val args: ScrabbleFragmentArgs by navArgs()
-    private lateinit var selectedGame: Game
 
     override fun initUi() {
-        //getting selected game from navigation component
-        selectedGame = args.gameEnum
-        Timber.d("Game: ${selectedGame.name}, player count: ${args.playerCount}, duration per player: ${args.playerRoundDuration}min/${(args.playerRoundDuration.timeInMilliseconds())}ms")
+        Timber.d("Scrabble, player count: ${args.playerCount}, duration per player: ${args.playerRoundDuration}min/${(args.playerRoundDuration.timeInMilliseconds())}ms")
         setViewsForGame(getString(Game.SCRABBLE.nameRes))
     }
 
@@ -212,7 +209,7 @@ class ScrabbleFragment : BaseFragment<FragmentScrabbleBinding>(FragmentScrabbleB
 
         Timber.d("Scrabble: round ${viewModel.scrabbleRound} - player ${viewModel.scrabbleCurrentPlayer + 1}")
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
-            "${requireContext().getString(selectedGame.nameRes)} | Round ${viewModel.scrabbleRound}, Player ${viewModel.scrabbleCurrentPlayer + 1}"
+            "${requireContext().getString(Game.SCRABBLE.nameRes)} | Round ${viewModel.scrabbleRound}, Player ${viewModel.scrabbleCurrentPlayer + 1}"
 
         //reset ui
         scrabbleResetUi()
