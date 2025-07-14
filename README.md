@@ -26,3 +26,7 @@ A companion app for tabletop games; substitute for pen, paper and clock. Current
 <a href="https://www.flaticon.com/free-icons/scrabble" title="scrabble icons">Scrabble icons created by Freepik - Flaticon</a>
 
 <a href="https://www.flaticon.com/free-icons/chess" title="chess icons">Chess icons created by Freepik - Flaticon</a>
+
+<a href="https://www.flaticon.com/free-icons/dungeon" title="dungeon icons">Dungeon icons created by Freepik - Flaticon</a>
+
+<a href="https://www.flaticon.com/free-icons/luck" title="luck icons">Luck icons created by Freepik - Flaticon</a>
