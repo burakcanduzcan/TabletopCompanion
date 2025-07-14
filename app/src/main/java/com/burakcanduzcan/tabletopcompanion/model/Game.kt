@@ -9,6 +9,7 @@ enum class Game(
     @DrawableRes val imageRes: Int,
     val minPlayer: Int,
     val maxPlayer: Int,
+    val enableTimer: Boolean = false
 ) {
     SCRABBLE(R.string.scrabble, R.drawable.scrabble_letter, 2, 4, true),
     CHESS(R.string.chess, R.drawable.knight, 2, 2, true),

@@ -1,5 +1,6 @@
 package com.burakcanduzcan.tabletopcompanion.ui.setup
 
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -8,6 +9,7 @@ import com.burakcanduzcan.tabletopcompanion.core.BaseFragment
 import com.burakcanduzcan.tabletopcompanion.databinding.FragmentSetupBinding
 import com.burakcanduzcan.tabletopcompanion.model.Game
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class SetupFragment : BaseFragment<FragmentSetupBinding>(FragmentSetupBinding::inflate) {
@@ -66,45 +68,67 @@ class SetupFragment : BaseFragment<FragmentSetupBinding>(FragmentSetupBinding::i
         }
         //endregion
 
-        //finish setup button
-        binding.btnFinish.setOnClickListener {
-            binding.etDuration.text.toString().let { duration ->
-                if (duration.isBlank()) {
+        //region Option2 - Timer
+        binding.cvOption2.visibility =
+            if (viewModel.selectedGame.enableTimer) View.VISIBLE else View.GONE
+        //endregion
+    }
+
+    override fun initListeners() {
+        binding.btnFinishSetup.setOnClickListener {
+            var duration: Int? = null
+
+            if (viewModel.selectedGame.enableTimer) {
+
+                if (binding.etDuration.text.toString().isBlank()) {
                     binding.etDuration.error =
                         requireContext().getString(R.string.duration_field_can_not_be_empty)
-                } else if (duration.toInt() in 1..59) {
-                    //close keyboard, should it left open
-                    dismissKeyboard()
+                    return@setOnClickListener
+                }
 
-                    //navigate
-                    when (viewModel.selectedGame) {
-                        Game.SCRABBLE -> {
-                            this.findNavController().navigate(
-                                SetupFragmentDirections.finishSetup(
-                                    viewModel.selectedGame,
-                                    binding.tvPlayerCount.text.toString().toInt(),
-                                    duration.toInt()
-                                )
-                            )
-                        }
-
-                        Game.CHESS -> {
-                            this.findNavController().navigate(
-                                SetupFragmentDirections.actionSetupFragmentToChessFragment(duration.toInt())
-                            )
-                        }
-
-                        else -> {
-                        }
-                    }
-                } else {
+                duration = binding.etDuration.text.toString().toInt()
+                if (duration !in 1..59) {
                     binding.etDuration.error = "1-59"
+                    return@setOnClickListener
+                }
+            }
+
+            //close keyboard, should it left open
+            dismissKeyboard()
+
+            //navigate
+            when (viewModel.selectedGame) {
+                Game.SCRABBLE -> {
+                    this.findNavController().navigate(
+                        SetupFragmentDirections.actionSetupFragmentToScrabbleFragment(
+                            binding.tvPlayerCount.text.toString().toInt(),
+                            duration!!.toInt()
+                        )
+                    )
+                }
+
+                Game.CHESS -> {
+                    this.findNavController().navigate(
+                        SetupFragmentDirections.actionSetupFragmentToChessFragment(
+                            duration!!.toInt()
+                        )
+                    )
+                }
+
+                Game.MUNCHKIN -> {
+                    this.findNavController().navigate(
+                        SetupFragmentDirections.actionSetupFragmentToMunchkinFragment(
+                            binding.tvPlayerCount.text.toString().toInt()
+                        )
+                    )
+                }
+
+                else -> {
+                    Timber.d("Unrecognized game")
                 }
             }
         }
     }
-
-    override fun initListeners() {}
 
     override fun initObservables() {
         viewModel.playerCount.observe(viewLifecycleOwner) {
