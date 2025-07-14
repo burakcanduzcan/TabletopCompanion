@@ -90,7 +90,7 @@ class ChessFragment : BaseFragment<FragmentChessBinding>(FragmentChessBinding::i
 
     override fun onResume() {
         super.onResume()
-        setTitle("${requireContext().getString(Game.CHESS.nameRes)} | Setup Phase")
+        setTitle(requireContext().getString(Game.CHESS.nameRes))
     }
 
     override fun onPause() {
