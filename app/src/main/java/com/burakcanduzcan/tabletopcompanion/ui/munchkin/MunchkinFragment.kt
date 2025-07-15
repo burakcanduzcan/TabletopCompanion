@@ -1,6 +1,7 @@
 package com.burakcanduzcan.tabletopcompanion.ui.munchkin
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
@@ -25,6 +26,17 @@ class MunchkinFragment : BaseFragment<FragmentMunchkinBinding>(FragmentMunchkinB
     }
 
     override fun initObservables() {
+    }
+
+    @SuppressLint("SourceLockedOrientationActivity")
+    override fun onResume() {
+        super.onResume()
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
     }
 
     @SuppressLint("ClickableViewAccessibility")
