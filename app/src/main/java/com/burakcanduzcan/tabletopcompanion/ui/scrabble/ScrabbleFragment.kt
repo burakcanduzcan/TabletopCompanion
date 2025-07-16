@@ -259,7 +259,7 @@ class ScrabbleFragment : BaseFragment<FragmentScrabbleBinding>(FragmentScrabbleB
     }
 
     private fun scrabbleOnClickShowEnteredWordList(scrabblePlayer: ScrabblePlayer) {
-        Timber.d("Show entered word list button is clicked for ${scrabblePlayer.playerName}")
+        /*Timber.d("Show entered word list button is clicked for ${scrabblePlayer.playerName}")
 
         val popupBinding = PopupScrabbleEnteredWordListBinding.inflate(layoutInflater)
 
@@ -285,6 +285,6 @@ class ScrabbleFragment : BaseFragment<FragmentScrabbleBinding>(FragmentScrabbleB
 
         popupBinding.ibBack.setOnClickListener {
             popupWindow.dismiss()
-        }
+        }*/
     }
 }
