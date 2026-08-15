@@ -1,9 +1,6 @@
 package com.burakcanduzcan.tabletopcompanion.ui.scrabble
 
-import android.view.Gravity
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +11,6 @@ import com.burakcanduzcan.tabletopcompanion.R
 import com.burakcanduzcan.tabletopcompanion.core.BaseFragment
 import com.burakcanduzcan.tabletopcompanion.databinding.FragmentScrabbleBinding
 import com.burakcanduzcan.tabletopcompanion.databinding.PopupAddItemBinding
-import com.burakcanduzcan.tabletopcompanion.databinding.PopupScrabbleEnteredWordListBinding
 import com.burakcanduzcan.tabletopcompanion.model.Game
 import com.burakcanduzcan.tabletopcompanion.model.ScrabblePlayer
 import com.burakcanduzcan.tabletopcompanion.utils.TimeUtil.getFormattedTimeTextFromMilliseconds
