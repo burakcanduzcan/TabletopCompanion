@@ -17,11 +17,14 @@ class MunchkinFragment : BaseFragment<FragmentMunchkinBinding>(FragmentMunchkinB
     override val viewModel: MunchkinViewModel by viewModels()
     private val args: MunchkinFragmentArgs by navArgs()
 
+    private val pawnRightOffset = 50
+
     override fun initUi() {
         hideStatusBar()
-
         setTitle(getString(Game.MUNCHKIN.nameRes))
-        addPawns(args.playerCount)
+        binding.root.post {
+            addPawns(args.playerCount)
+        }
     }
 
     override fun initListeners() {
@@ -48,14 +51,21 @@ class MunchkinFragment : BaseFragment<FragmentMunchkinBinding>(FragmentMunchkinB
         for (i in 0 until count) {
             val pawn = ImageView(this.context)
             pawn.setImageResource(imgList[i])
+            pawn.rotation = 90f
             pawn.layoutParams = ConstraintLayout.LayoutParams(120, 120)
-
-            //setting initial position
-            pawn.x = (100 * i).toFloat()
-            pawn.y = 100f
-
+            //setting initial position, start from the right side and to the left per row
+            if (i < 3) {
+                pawn.x = (
+                        binding.root.width - pawn.layoutParams.width - (100 * i) - pawnRightOffset
+                        ).toFloat()
+                pawn.y = 100f
+            } else {
+                pawn.x = (
+                        binding.root.width - pawn.layoutParams.width - (100 * (i - 3)) - pawnRightOffset
+                        ).toFloat()
+                pawn.y = 200f
+            }
             pawn.setOnTouchListener(DragTouchListener())
-
             binding.root.addView(pawn)
         }
     }
