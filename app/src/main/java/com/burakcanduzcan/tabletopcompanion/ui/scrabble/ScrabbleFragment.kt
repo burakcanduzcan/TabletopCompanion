@@ -27,8 +27,6 @@ class ScrabbleFragment : BaseFragment<FragmentScrabbleBinding>(FragmentScrabbleB
     private val args: ScrabbleFragmentArgs by navArgs()
 
     override fun initUi() {
-        hideStatusBar()
-
         Timber.d("Scrabble, player count: ${args.playerCount}, duration per player: ${args.playerRoundDuration}min/${(args.playerRoundDuration.timeInMilliseconds())}ms")
         setViewsForGame(getString(Game.SCRABBLE.nameRes))
     }

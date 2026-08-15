@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RawRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
@@ -100,17 +98,5 @@ abstract class BaseFragment<T : ViewBinding>(
             soundMediaPlayer!!.isLooping = false
             soundMediaPlayer!!.start()
         }
-    }
-
-    fun hideStatusBar() {
-        val window = requireActivity().window
-        WindowInsetsControllerCompat(window, window.decorView)
-            .hide(WindowInsetsCompat.Type.statusBars())
-    }
-
-    fun showStatusBar() {
-        val window = requireActivity().window
-        WindowInsetsControllerCompat(window, window.decorView)
-            .show(WindowInsetsCompat.Type.statusBars())
     }
 }

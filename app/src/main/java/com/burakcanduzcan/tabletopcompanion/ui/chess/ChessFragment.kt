@@ -19,8 +19,6 @@ class ChessFragment : BaseFragment<FragmentChessBinding>(FragmentChessBinding::i
     private val args: ChessFragmentArgs by navArgs()
 
     override fun initUi() {
-        hideStatusBar()
-
         val duration = args.roundDurationInMinute.timeInMilliseconds()
 
         binding.tvTimerOne.text = getFormattedTimeTextFromMilliseconds(duration)

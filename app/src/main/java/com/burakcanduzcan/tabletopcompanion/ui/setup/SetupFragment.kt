@@ -138,7 +138,6 @@ class SetupFragment : BaseFragment<FragmentSetupBinding>(FragmentSetupBinding::i
 
     override fun onResume() {
         super.onResume()
-        showStatusBar()
         setTitle("${requireContext().getString(viewModel.selectedGame.nameRes)} | Setup Phase")
     }
 }

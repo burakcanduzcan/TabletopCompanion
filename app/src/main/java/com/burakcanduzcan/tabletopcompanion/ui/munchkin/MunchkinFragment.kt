@@ -20,7 +20,6 @@ class MunchkinFragment : BaseFragment<FragmentMunchkinBinding>(FragmentMunchkinB
     private val pawnRightOffset = 50
 
     override fun initUi() {
-        hideStatusBar()
         setTitle(getString(Game.MUNCHKIN.nameRes))
         binding.root.post {
             addPawns(args.playerCount)
