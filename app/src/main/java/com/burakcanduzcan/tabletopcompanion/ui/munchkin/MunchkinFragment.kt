@@ -18,6 +18,8 @@ class MunchkinFragment : BaseFragment<FragmentMunchkinBinding>(FragmentMunchkinB
     private val args: MunchkinFragmentArgs by navArgs()
 
     override fun initUi() {
+        hideStatusBar()
+
         setTitle(getString(Game.MUNCHKIN.nameRes))
         addPawns(args.playerCount)
     }
